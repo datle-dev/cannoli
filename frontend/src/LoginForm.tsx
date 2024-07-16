@@ -34,13 +34,6 @@ export default function LoginForm() {
           {...register("username", { required: true })}
         />
 
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          id="email"
-          {...register("email", { required: true })}
-        />
-
         <label htmlFor="password">Password</label>
         <input
           type="password"
