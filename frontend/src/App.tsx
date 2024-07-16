@@ -1,9 +1,20 @@
 import { useState } from "react";
+import { useForm, FieldValues } from "react-hook-form";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import "./App.css";
 
 export default function App() {
+  const [user, setUser] = useState()
+  const [profile, setProfile] = useState()
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   async function handleRefreshToken() {
     await fetch("http://127.0.0.1:8000/auth/token/refresh/", {
       method: "POST",
@@ -39,7 +50,6 @@ export default function App() {
       console.log("Refreshing token...");
       await handleRefreshToken();
       res = await fetch("http://127.0.0.1:8000/auth/user/", {
-        credentials: "include",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access")}`,
         },
@@ -48,7 +58,52 @@ export default function App() {
       console.log("token refreshed, original req resent");
     }
 
-    return resJson;
+    setUser(resJson)
+  }
+
+  async function handleGetProfile() {
+    console.log(`http://127.0.0.1:8000/profiles/${user.pk}/`)
+    await fetch(`http://127.0.0.1:8000/profiles/${user.pk}/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        setProfile(data)
+      })
+      .catch((err) => console.log(err));
+  }
+
+  async function handleEditProfile() {
+    await handleGetProfile()
+    setIsEditingProfile(true)
+    console.log(profile)
+  }
+
+  async function handlePutProfile(data: FieldValues) {
+    await fetch(`http://127.0.0.1:8000/profiles/${user.pk}/`, {
+      method: "PUT",
+      body: JSON.stringify({
+        ...data,
+        update_date: new Date().toISOString(),
+      }),
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        setIsEditingProfile(false)
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleCancelEditProfile() {
+    setIsEditingProfile(false)
   }
 
   async function handleLogout() {
@@ -78,6 +133,10 @@ export default function App() {
     <>
       <RegisterForm />
       <LoginForm />
+      
+      <button type="button" onClick={handleEditProfile}>
+        Edit Profile
+      </button>
       <button type="button" onClick={handleRefreshToken}>
         Refresh Token
       </button>
@@ -87,6 +146,24 @@ export default function App() {
       <button type="button" onClick={handleLogout}>
         Logout
       </button>
+
+      {isEditingProfile && (
+        <>
+          <form onSubmit={handleSubmit(handlePutProfile)}>
+            <label htmlFor="about">About</label>
+            <textarea
+              id="about"
+              defaultValue={profile.about}
+              {...register("about", { required: false })}
+            />
+
+            {errors.exampleRequired && <span>This field is required</span>}
+
+            <input type="submit" value="Save Changes" />
+          </form>
+          <button type="button" onClick={handleCancelEditProfile}>Cancel</button>
+        </>
+      )}
     </>
   );
 }
