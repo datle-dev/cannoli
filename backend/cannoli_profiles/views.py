@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from profiles.models import Profile
-from profiles.serializers import ProfileSerializer
+from cannoli_profiles.models import Profile
+from cannoli_profiles.serializers import ProfileSerializer
 
 class ProfileDetail(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()

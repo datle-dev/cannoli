@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class ProfilesConfig(AppConfig):
+class CannoliProfilesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'profiles'
+    name = 'cannoli_profiles'
 
     def ready(self):
-        import profiles.signals
+        import cannoli_profiles.signals

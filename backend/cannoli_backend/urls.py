@@ -1,5 +1,5 @@
 """
-URL configuration for backend project.
+URL configuration for cannoli_backend project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
-    path('profiles/', include('profiles.urls')),
+    path('auth/', include('cannoli_auth.urls')),
+    path('profiles/', include('cannoli_profiles.urls')),
 ]
+

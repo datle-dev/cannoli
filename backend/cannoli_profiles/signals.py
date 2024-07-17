@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from authentication.models import User
-from profiles.models import Profile
+from cannoli_auth.models import User
+from cannoli_profiles.models import Profile
 import datetime
 
 @receiver(post_save, sender=User)
