@@ -6,7 +6,7 @@ N/A
 ### Bug Fixes / Minor Changes
 N/A
 
-## Issue
+## Issues
 N/A
 
 ## Why
