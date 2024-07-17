@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
+import AllFeed from "./AllFeed";
 import "./App.css";
 
 export default function App() {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(null)
   const [profile, setProfile] = useState()
   const [isEditingProfile, setIsEditingProfile] = useState(false)
   const [isCreatingPost, setIsCreatingPost] = useState(false)
@@ -15,6 +16,38 @@ export default function App() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    async function handleCheckUser() {
+      if (!localStorage.getItem("refresh")) return;
+  
+      let res = await fetch("http://127.0.0.1:8000/auth/user/", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+      let resJson = await res.json();
+  
+      if (res.status === 200) {
+        console.log(`OK: ${res.status}`);
+      } else if (res.status === 401) {
+        console.log(`401 Error! ${res.status}`);
+        console.log("Refreshing token...");
+        await handleRefreshToken();
+        res = await fetch("http://127.0.0.1:8000/auth/user/", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        });
+        resJson = await res.json();
+        console.log("token refreshed, original req resent");
+      }
+  
+      setUser(resJson)
+    }
+    
+    handleCheckUser()
+  }, [])
 
   async function handleRefreshToken() {
     await fetch("http://127.0.0.1:8000/auth/token/refresh/", {
@@ -32,34 +65,6 @@ export default function App() {
         localStorage.setItem("refresh", data.refresh);
       })
       .catch((err) => console.log(err));
-  }
-
-  async function handleCheckUser() {
-    if (!localStorage.getItem("refresh")) return;
-
-    let res = await fetch("http://127.0.0.1:8000/auth/user/", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-    });
-    let resJson = await res.json();
-
-    if (res.status === 200) {
-      console.log(`OK: ${res.status}`);
-    } else if (res.status === 401) {
-      console.log(`401 Error! ${res.status}`);
-      console.log("Refreshing token...");
-      await handleRefreshToken();
-      res = await fetch("http://127.0.0.1:8000/auth/user/", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
-        },
-      });
-      resJson = await res.json();
-      console.log("token refreshed, original req resent");
-    }
-
-    setUser(resJson)
   }
 
   async function handleGetProfile() {
@@ -178,9 +183,6 @@ export default function App() {
       <button type="button" onClick={handleRefreshToken}>
         Refresh Token
       </button>
-      <button type="button" onClick={handleCheckUser}>
-        Check User
-      </button>
       <button type="button" onClick={handleGetPosts}>
         Get Posts
       </button>
@@ -233,6 +235,12 @@ export default function App() {
           <button type="button" onClick={handleCancelCreatePost}>Cancel</button>
         </>
       )}
+
+      {user !== null && (
+        <AllFeed />
+      )}
+
+      
     </>
   );
 }
