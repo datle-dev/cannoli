@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'cannoli_auth',
+    'cannoli_posts',
     'cannoli_profiles',
 ]
 
