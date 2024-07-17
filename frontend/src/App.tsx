@@ -8,6 +8,7 @@ export default function App() {
   const [user, setUser] = useState()
   const [profile, setProfile] = useState()
   const [isEditingProfile, setIsEditingProfile] = useState(false)
+  const [isCreatingPost, setIsCreatingPost] = useState(false)
 
   const {
     register,
@@ -81,6 +82,10 @@ export default function App() {
     setIsEditingProfile(true)
     console.log(profile)
   }
+  
+  function handleCancelEditProfile() {
+    setIsEditingProfile(false)
+  }
 
   async function handlePutProfile(data: FieldValues) {
     await fetch(`http://127.0.0.1:8000/profiles/${user.pk}/`, {
@@ -102,8 +107,41 @@ export default function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleCancelEditProfile() {
-    setIsEditingProfile(false)
+  async function handleGetPosts() {
+    console.log(`http://127.0.0.1:8000/posts/`)
+    await fetch(`http://127.0.0.1:8000/posts/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  }
+
+  async function handleCreatePost() {
+    setIsCreatingPost(true)
+  }
+  
+  function handleCancelCreatePost() {
+    setIsCreatingPost(false)
+  }
+
+  async function handlePostPost(data: FieldValues) {
+    await fetch(`http://127.0.0.1:8000/posts/`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        setIsCreatingPost(false)
+      })
+      .catch((err) => console.log(err));
   }
 
   async function handleLogout() {
@@ -143,6 +181,12 @@ export default function App() {
       <button type="button" onClick={handleCheckUser}>
         Check User
       </button>
+      <button type="button" onClick={handleGetPosts}>
+        Get Posts
+      </button>
+      <button type="button" onClick={handleCreatePost}>
+        Create Post
+      </button>
       <button type="button" onClick={handleLogout}>
         Logout
       </button>
@@ -170,6 +214,23 @@ export default function App() {
             <input type="submit" value="Save Changes" />
           </form>
           <button type="button" onClick={handleCancelEditProfile}>Cancel</button>
+        </>
+      )}
+
+      {isCreatingPost && (
+        <>
+          <form onSubmit={handleSubmit(handlePostPost)}>
+            <label htmlFor="content">About</label>
+            <textarea
+              id="content"
+              {...register("content", { required: true })}
+              />
+
+            {errors.exampleRequired && <span>This field is required</span>}
+
+            <input type="submit" value="Submit Post" />
+          </form>
+          <button type="button" onClick={handleCancelCreatePost}>Cancel</button>
         </>
       )}
     </>
