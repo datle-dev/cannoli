@@ -155,6 +155,14 @@ export default function App() {
               id="about"
               defaultValue={profile.about}
               {...register("about", { required: false })}
+              />
+
+            <label htmlFor="avatar">Avatar</label>
+            <input
+              type="text"
+              id="avatar"
+              defaultValue={profile.avatar}
+              {...register("avatar", { required: false })}
             />
 
             {errors.exampleRequired && <span>This field is required</span>}

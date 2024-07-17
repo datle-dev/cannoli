@@ -10,6 +10,7 @@ def create_profile(sender, instance, created, **kwargs):
         profile = Profile(
             user_id=instance,
             about="",
+            avatar="( > u < )",
             update_date=datetime.datetime.now().isoformat()
         )
         profile.save()
