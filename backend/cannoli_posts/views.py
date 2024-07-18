@@ -1,9 +1,9 @@
-from django.db.models import Count
-from django.shortcuts import render
+from django.db.models import Exists, OuterRef
 from django.utils import timezone
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, views
 from rest_framework.response import Response
-from .models import Post, Like
+from cannoli_auth.models import User
+from .models import Post
 from .serializers import PostSerializer, LikeSerializer
 
 class PostList(generics.ListCreateAPIView):
@@ -12,14 +12,35 @@ class PostList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Post.objects.annotate(likes=Count('like'))
+        qs = super().get_queryset()
+        return qs.annotate(liked_by_user=Exists(Post.liked_by.through.objects.filter(
+            post_id=OuterRef('pk'),
+            user_id=self.request.user.pk,
+        )))
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user, create_date=timezone.now())
 
-class PostLike(generics.CreateAPIView):
-    serializer_class = LikeSerializer
+class LikePost(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user, create_date=timezone.now())
+    def post(self, request, format=None):
+        serializer = LikeSerializer(data=request.data)
+        if serializer.is_valid():
+            post = Post.objects.get(pk=serializer.data['post_id'])
+            user = User.objects.get(pk=request.user.id)
+            post.liked_by.add(user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UnlikePost(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, format=None):
+        serializer = LikeSerializer(data=request.data)
+        if serializer.is_valid():
+            post = Post.objects.get(pk=serializer.data['post_id'])
+            user = User.objects.get(pk=request.user.id)
+            post.liked_by.remove(user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
