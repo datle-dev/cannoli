@@ -1,246 +1,40 @@
-import { useState, useEffect } from "react";
-import { useForm, FieldValues } from "react-hook-form";
-import RegisterForm from "./RegisterForm";
-import LoginForm from "./LoginForm";
-import AllFeed from "./AllFeed";
-import "./App.css";
+import { createContext } from "react";
+import { RouterProvider } from "react-router-dom";
+import Router from "./routes/Router.tsx";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { fetchRefresh } from "./utils/fetchUtils.ts";
+
+type UserType = {
+  pk: number,
+  username: string,
+  email: string
+}
+
+export const AuthContext = createContext(null);
 
 export default function App() {
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState()
-  const [isEditingProfile, setIsEditingProfile] = useState(false)
-  const [isCreatingPost, setIsCreatingPost] = useState(false)
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  useEffect(() => {
-    async function handleCheckUser() {
-      if (!localStorage.getItem("refresh")) return;
-  
-      let res = await fetch("http://127.0.0.1:8000/auth/user/", {
+  const user: UseQueryResult<UserType, Error> = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      console.log('user useQuery fired')
+      const res = await fetchRefresh("http://127.0.0.1:8000/auth/user/", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access")}`,
         },
-      });
-      let resJson = await res.json();
-  
-      if (res.status === 200) {
-        console.log(`OK: ${res.status}`);
-      } else if (res.status === 401) {
-        console.log(`401 Error! ${res.status}`);
-        console.log("Refreshing token...");
-        await handleRefreshToken();
-        res = await fetch("http://127.0.0.1:8000/auth/user/", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access")}`,
-          },
-        });
-        resJson = await res.json();
-        console.log("token refreshed, original req resent");
-      }
-  
-      setUser(resJson)
-    }
-    
-    handleCheckUser()
-  }, [])
-
-  async function handleRefreshToken() {
-    await fetch("http://127.0.0.1:8000/auth/token/refresh/", {
-      method: "POST",
-      body: JSON.stringify({
-        refresh: localStorage.getItem("refresh"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("access", data.access);
-        localStorage.setItem("refresh", data.refresh);
       })
-      .catch((err) => console.log(err));
-  }
 
-  async function handleGetProfile() {
-    console.log(`http://127.0.0.1:8000/profiles/${user.pk}/`)
-    await fetch(`http://127.0.0.1:8000/profiles/${user.pk}/`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setProfile(data)
-      })
-      .catch((err) => console.log(err));
-  }
-
-  async function handleEditProfile() {
-    await handleGetProfile()
-    setIsEditingProfile(true)
-    console.log(profile)
-  }
-  
-  function handleCancelEditProfile() {
-    setIsEditingProfile(false)
-  }
-
-  async function handlePutProfile(data: FieldValues) {
-    await fetch(`http://127.0.0.1:8000/profiles/${user.pk}/`, {
-      method: "PUT",
-      body: JSON.stringify({
-        ...data,
-        update_date: new Date().toISOString(),
-      }),
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setIsEditingProfile(false)
-      })
-      .catch((err) => console.log(err));
-  }
-
-  async function handleGetPosts() {
-    console.log(`http://127.0.0.1:8000/posts/`)
-    await fetch(`http://127.0.0.1:8000/posts/`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
-  }
-
-  async function handleCreatePost() {
-    setIsCreatingPost(true)
-  }
-  
-  function handleCancelCreatePost() {
-    setIsCreatingPost(false)
-  }
-
-  async function handlePostPost(data: FieldValues) {
-    await fetch(`http://127.0.0.1:8000/posts/`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setIsCreatingPost(false)
-      })
-      .catch((err) => console.log(err));
-  }
-
-  async function handleLogout() {
-    if (!localStorage.getItem("refresh")) return;
-
-    console.log(localStorage.getItem("refresh-token"));
-    await fetch("http://127.0.0.1:8000/auth/token/blacklist/", {
-      method: "POST",
-      body: JSON.stringify({
-        refresh: localStorage.getItem("refresh"),
-      }),
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-      })
-      .catch((err) => console.log(err));
-  }
+      return await res.json()
+    },
+    retry: 1,
+  });
 
   return (
     <>
-      <RegisterForm />
-      <LoginForm />
-      
-      <button type="button" onClick={handleEditProfile}>
-        Edit Profile
-      </button>
-      <button type="button" onClick={handleRefreshToken}>
-        Refresh Token
-      </button>
-      <button type="button" onClick={handleGetPosts}>
-        Get Posts
-      </button>
-      <button type="button" onClick={handleCreatePost}>
-        Create Post
-      </button>
-      <button type="button" onClick={handleLogout}>
-        Logout
-      </button>
-
-      {isEditingProfile && (
-        <>
-          <form onSubmit={handleSubmit(handlePutProfile)}>
-            <label htmlFor="about">About</label>
-            <textarea
-              id="about"
-              defaultValue={profile.about}
-              {...register("about", { required: false })}
-              />
-
-            <label htmlFor="avatar">Avatar</label>
-            <input
-              type="text"
-              id="avatar"
-              defaultValue={profile.avatar}
-              {...register("avatar", { required: false })}
-            />
-
-            {errors.exampleRequired && <span>This field is required</span>}
-
-            <input type="submit" value="Save Changes" />
-          </form>
-          <button type="button" onClick={handleCancelEditProfile}>Cancel</button>
-        </>
-      )}
-
-      {isCreatingPost && (
-        <>
-          <form onSubmit={handleSubmit(handlePostPost)}>
-            <label htmlFor="content">About</label>
-            <textarea
-              id="content"
-              {...register("content", { required: true })}
-              />
-
-            {errors.exampleRequired && <span>This field is required</span>}
-
-            <input type="submit" value="Submit Post" />
-          </form>
-          <button type="button" onClick={handleCancelCreatePost}>Cancel</button>
-        </>
-      )}
-
-      {user !== null && (
-        <AllFeed />
-      )}
-
-      
+      <AuthContext.Provider value={{ user }}>
+        <RouterProvider router={Router} />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </AuthContext.Provider>
     </>
   );
 }
