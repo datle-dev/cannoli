@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'cannoli_auth',
     'cannoli_posts',
     'cannoli_profiles',
+    'cannoli_comments',
 ]
 
 MIDDLEWARE = [

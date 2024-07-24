@@ -22,5 +22,6 @@ urlpatterns = [
     path('auth/', include('cannoli_auth.urls')),
     path('posts/', include('cannoli_posts.urls')),
     path('profiles/', include('cannoli_profiles.urls')),
+    path('comments/', include('cannoli_comments.urls')),
 ]
 

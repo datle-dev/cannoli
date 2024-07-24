@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 
 type PostType = {
   id: number,
@@ -13,6 +14,12 @@ type PostType = {
 export default function Post({ post }) {
   const [likeCount, setLikeCount] = useState(Number(post.like_count));
   const [isLiked, setIsLiked] = useState(Boolean(post.liked_by_user));
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const likeMutation = useMutation({
     mutationFn: async () => {
@@ -62,6 +69,34 @@ export default function Post({ post }) {
     },
   });
 
+  const commentMutation = useMutation({
+    mutationFn: async (data) => {
+      console.log('comment mutationFn fired')
+      console.log(JSON.stringify({...data, post_id: post.id}))
+      return await fetch("http://127.0.0.1:8000/comments/", {
+        method: "POST",
+        body: JSON.stringify({
+          ...data,
+          post_id: post.id,
+        }),
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch((err) => console.log(err));
+    },
+    onSuccess: () => {
+      console.log('comment mutation success')
+      // queryClient.invalidateQueries({queryKey: ['user']})
+      // navigate("/home")
+    }
+  })
+
   function handlePostLike() {
     console.log('handle post like')
     likeMutation.mutate()
@@ -70,6 +105,11 @@ export default function Post({ post }) {
   function handlePostUnlike() {
     console.log('handle post unlike')
     unlikeMutation.mutate()
+  }
+
+  function handlePostComment(data) {
+    console.log('handle post comment')
+    commentMutation.mutate(data)
   }
 
   return (
@@ -91,6 +131,18 @@ export default function Post({ post }) {
           Like
         </button>
       )}
+      <form onSubmit={handleSubmit(handlePostComment)}>
+        <label htmlFor="content">Comment</label>
+        <textarea
+          id="content"
+          placeholder="Post your reply"
+          {...register("content", { required: true })}
+        />
+
+        {errors.exampleRequired && <span>This field is required</span>}
+
+        <input type="submit" value="Reply" />
+      </form>
     </article>
   );
 }
