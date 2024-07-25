@@ -5,6 +5,7 @@ import Home from "./Home.tsx";
 import Profile from "./Profile.tsx";
 import Login from "./Login.tsx";
 import Register from "./Register.tsx";
+import User from "./User.tsx";
 
 const Router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const Router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "user/:id",
+        element: <User />,
       },
     ],
   },
