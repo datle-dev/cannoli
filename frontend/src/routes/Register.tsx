@@ -1,6 +1,8 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import * as Form from "@radix-ui/react-form";
+import styles from "./Register.module.css";
 
 type RegisterType = {
   email: string,
@@ -15,6 +17,7 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
   const mutation = useMutation({
@@ -46,39 +49,86 @@ export default function Register() {
     <>
       <title>Cannoli | Register</title>
       <h2>Register</h2>
-      <form onSubmit={handleSubmit(handleRegister)}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          id="email"
-          {...register("email", { required: true })}
-        />
+      <Form.Root
+        onSubmit={handleSubmit(handleRegister)}
+        className={styles.root}
+      >
+        <Form.Field name="email" className={styles.field}>
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="name@example.com"
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Email is required",
+              },
+            })}
+          />
+          <Form.Message asChild className={styles.error}>
+            <p>{errors.email?.message}</p>
+          </Form.Message>
+        </Form.Field>
+        <Form.Field name="username" className={styles.field}>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="username"
+            {...register("username", {
+              required: {
+                value: true,
+                message: "Username is required",
+              },
+            })}
+          />
+          <Form.Message asChild className={styles.error}>
+            <p>{errors.username?.message}</p>
+          </Form.Message>
+        </Form.Field>
+        <Form.Field name="password1" className={styles.field}>
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="password"
+            {...register("password1", {
+              required: {
+                value: true,
+                message: "Password is required",
+              },
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters"
+              },
+            })}
+          />
+          <Form.Message asChild className={styles.error}>
+            <p>{errors.password1?.message}</p>
+          </Form.Message>
+        </Form.Field>
+        <Form.Field name="password2" className={styles.field}>
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="password"
+            {...register("password2", {
+              required: {
+                value: true,
+                message: "Password confirmation is required",
+              },
+              validate: (value: string) => {
+                if (watch("password1") !== value) {
+                  return "Passwords must match"
+                }
+              },
+            })}
+          />
+          <Form.Message asChild className={styles.error}>
+            <p>{errors.password2?.message}</p>
+          </Form.Message>
+        </Form.Field>
+        <Form.Submit>Register</Form.Submit>
+      </Form.Root>
 
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          {...register("username", { required: true })}
-        />
-
-        <label htmlFor="password1">Password</label>
-        <input
-          type="password"
-          id="password1"
-          {...register("password1", { required: true })}
-        />
-
-        <label htmlFor="password2">Confirm Password</label>
-        <input
-          type="password"
-          id="password2"
-          {...register("password2", { required: true })}
-        />
-
-        {errors.exampleRequired && <span>This field is required</span>}
-
-        <input type="submit" value="Register" />
-      </form>
       <p>Already registered? <Link to={"/login"}>Login</Link></p>
     </>
   );
