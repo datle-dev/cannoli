@@ -1,0 +1,14 @@
+.root {
+    display: flex;
+    flex-direction: column;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+}
