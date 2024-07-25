@@ -2,12 +2,14 @@ import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import * as Form from "@radix-ui/react-form";
 import { AuthContext } from "../App";
+import styles from "./Login.module.css";
 
 type LoginType = {
-  username: string,
-  password: string,
-}
+  username: string;
+  password: string;
+};
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,12 +19,12 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  const { user } = useContext(AuthContext)
-  const queryClient = useQueryClient()
+  const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (data: LoginType) => {
-      console.log('login mutationFn fired')
+      console.log("login mutationFn fired");
       return await fetch("http://127.0.0.1:8000/auth/login/", {
         method: "POST",
         body: JSON.stringify(data),
@@ -30,8 +32,8 @@ export default function Login() {
           "Content-Type": "application/json",
         },
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           console.log(data);
           localStorage.setItem("access", data.access);
           localStorage.setItem("refresh", data.refresh);
@@ -39,17 +41,18 @@ export default function Login() {
         .catch((err) => console.log(err));
     },
     onSuccess: () => {
-      console.log('login mutation success')
-      queryClient.invalidateQueries({queryKey: ['user']})
-      navigate("/home")
-    }
-  })
+      console.log("login mutation success");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate("/home");
+    },
+  });
 
   async function handleLogin(data: LoginType) {
-    console.log('handleData login fired')
-    console.log('cancel user queries')
-    await queryClient.cancelQueries({ queryKey: ['user'], exact: true })
-    mutation.mutate(data)
+    console.log("handleData login fired");
+    console.log("cancel user queries");
+    console.log(JSON.stringify(data));
+    await queryClient.cancelQueries({ queryKey: ["user"], exact: true });
+    mutation.mutate(data);
     console.log("handle login");
   }
 
@@ -57,27 +60,48 @@ export default function Login() {
     <>
       <title>Cannoli | Login</title>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit(handleLogin)}>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          {...register("username", { required: true })}
-        />
+      <Form.Root
+        onSubmit={handleSubmit(handleLogin)}
+        className={styles.root}
+      >
+        <Form.Field name="username" className={styles.field}>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="username"
+            {...register("username", {
+              required: {
+                value: true,
+                message: "Username is required",
+              },
+            })}
+          />
+          <Form.Message asChild className={styles.error}>
+            <p>{errors.username?.message}</p>
+          </Form.Message>
+        </Form.Field>
+        <Form.Field name="password" className={styles.field}>
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="password"
+            {...register("password", {
+              required: {
+                value: true,
+                message: "Password is required",
+              },
+            })}
+          />
+          <Form.Message asChild className={styles.error}>
+            <p>{errors.password?.message}</p>
+          </Form.Message>
+        </Form.Field>
+        <Form.Submit>Login</Form.Submit>
+      </Form.Root>
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          {...register("password", { required: true })}
-        />
-
-        {errors.exampleRequired && <span>This field is required</span>}
-
-        <input type="submit" value="Login" />
-      </form>
-      <p>Need an account? <Link to={"/register"}>Register</Link></p>
+      <p>
+        Need an account? <Link to={"/register"}>Register</Link>
+      </p>
     </>
   );
-
 }
