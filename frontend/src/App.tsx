@@ -15,7 +15,7 @@ export const AuthContext = createContext(null);
 
 export default function App() {
   const user: UseQueryResult<UserType, Error> = useQuery({
-    queryKey: ["user"],
+    queryKey: ["user", "current"],
     queryFn: async () => {
       console.log('user useQuery fired')
       const res = await fetchRefresh("http://127.0.0.1:8000/auth/user/", {
