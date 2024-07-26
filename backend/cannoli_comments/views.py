@@ -31,6 +31,17 @@ class CommentList(generics.ListCreateAPIView):
 class LikeComment(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    def get(self, request, format=None):
+        qs = Comment.objects.all()
+        user_id = self.request.query_params.get('user_id')
+        if user_id is not None:
+            qs = qs.filter(liked_by=user_id)
+            qs = qs.annotate(liked_by_user=Exists(Comment.liked_by.through.objects.filter(
+                user_id=self.request.user.pk,
+            )))
+        serializer = CommentSerializer(qs, many=True)
+        return Response(serializer.data)
+
     def post(self, request, format=None):
         serializer = LikeSerializer(data=request.data)
         if serializer.is_valid():
