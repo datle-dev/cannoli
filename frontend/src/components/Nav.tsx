@@ -10,10 +10,10 @@ export default function Nav() {
       <nav>
         <ul>
           <li>
-            <Link to={`login`}>Login</Link>
+            <Link to={'login'}>Login</Link>
           </li>
           <li>
-            <Link to={`register`}>Register</Link>
+            <Link to={'register'}>Register</Link>
           </li>
         </ul>
       </nav>  
@@ -24,10 +24,10 @@ export default function Nav() {
     <nav>
       <ul>
         <li>
-          <Link to={`home`}>Home</Link>
+          <Link to={'home'}>Home</Link>
         </li>
         <li>
-          <Link to={`profile`}>Profile</Link>
+          <Link to={`profile/${user.data.username}`}>Profile</Link>
         </li>
       </ul>
     </nav>

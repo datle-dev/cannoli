@@ -27,6 +27,31 @@ class UserDetail(generics.RetrieveAPIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
+class UsernameDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        username=self.kwargs['username']
+        qs = super().get_queryset()
+        qs = qs.filter(username=username)
+        pk = qs.first().pk
+        qs = qs.annotate(
+            followed_by_user=Exists(UserFollowing.objects.filter(
+                user_id=pk,
+                following_user_id=self.request.user.pk,
+            )),
+            following_user=Exists(UserFollowing.objects.filter(
+                user_id=self.request.user.pk,
+                following_user_id=pk,
+            )),
+        )
+        user = qs.first()
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+
 class UserFollow(generics.CreateAPIView):
     serializer_class = UserFollowSerializer
     permission_classes = [permissions.IsAuthenticated]
