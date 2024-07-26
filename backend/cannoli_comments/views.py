@@ -14,6 +14,9 @@ class CommentList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        user_id = self.request.query_params.get('user_id')
+        if user_id is not None:
+            qs = qs.filter(user_id=user_id)
         return qs.annotate(liked_by_user=Exists(Comment.liked_by.through.objects.filter(
             comment_id=OuterRef('pk'),
             user_id=self.request.user.pk,
