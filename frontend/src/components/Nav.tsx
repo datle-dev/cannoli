@@ -27,7 +27,7 @@ export default function Nav() {
           <Link to={`home`}>Home</Link>
         </li>
         <li>
-          <Link to={`profile`}>Profile</Link>
+          <Link to={`profile/${user.data.username}`}>Profile</Link>
         </li>
       </ul>
     </nav>
