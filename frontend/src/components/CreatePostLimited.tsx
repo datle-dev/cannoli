@@ -134,6 +134,7 @@ export default function CreatePostLimited() {
               message: "Word is required",
             },
             validate: {
+              isUnused: v => !usedWords.includes(v) || "Word is already used",
               isAvailable: v => availableWords.includes(v) || "Word is not available",
             },
           })}
