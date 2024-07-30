@@ -1,0 +1,20 @@
+.dialogOverlay {
+  background-color: black;
+  opacity: 0.4;
+  position: fixed;
+  inset: 0;
+}
+
+.dialogContent {
+  border: 1px solid black;
+  background-color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dialogTopRow {
+    display: flex;
+    justify-content: space-between;
+}
