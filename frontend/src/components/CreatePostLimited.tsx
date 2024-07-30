@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import Fuse from "fuse.js";
 
-export default function CreatePostLimited() {
+export default function CreatePostLimited({ onSuccessSetDialogOpen }) {
   const {
     register: registerWord,
     getValues: getValuesWord,
@@ -44,6 +44,7 @@ export default function CreatePostLimited() {
       console.log("create post mutation success");
       resetFieldWord("word")
       resetFieldPost("content")
+      onSuccessSetDialogOpen(false)
     },
   });
 
