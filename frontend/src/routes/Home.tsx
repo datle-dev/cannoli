@@ -3,8 +3,6 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import AllFeed from "../components/AllFeed";
 import AllComments from "../components/AllComments";
-import CreatePost from "../components/CreatePost";
-import CreatePostLimited from "../components/CreatePostLimited";
 
 export default function Home() {
   const { user } = useContext(AuthContext)
@@ -27,8 +25,6 @@ export default function Home() {
     <>
       <title>Cannoli | Home</title>
       <h2>Home</h2>
-      <CreatePost />
-      <CreatePostLimited />
       <h3>Feed</h3>
       <AllFeed />
       <AllComments />
