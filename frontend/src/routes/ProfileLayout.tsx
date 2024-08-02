@@ -26,6 +26,22 @@ export default function ProfileLayout() {
     retry: 1,
   });
 
+  const viewingProfile = useQuery({
+    queryKey: ["profile", "viewing"],
+    queryFn: async () => {
+      const res = await fetchRefresh(
+        `http://127.0.0.1:8000/profiles/${viewingUser.data.profile_id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      );
+      return res.json();
+    },
+    retry: 1,
+  });
+
   const followMutation = useMutation({
     mutationFn: async () => {
       console.log("follow mutationFn fired");
@@ -90,7 +106,7 @@ export default function ProfileLayout() {
     unfollowMutation.mutate();
   }
 
-  if (viewingUser.isPending) {
+  if (viewingUser.isPending || viewingProfile.isPending) {
     return <p>Loading...</p>;
   }
 
