@@ -160,108 +160,113 @@ export default function Post({ post }) {
         </a>
       </div>
       <div className={styles.postRight}>
-      <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-        <div className={styles.postTopRow}>
-        <a href={`/profile/${post.username}/posts`} onClick={handleGoToProfile}>
-          <p className={styles.username}>{post.username}</p>
-        </a>
-          
-          <span>·</span>
-          <p className={styles.date}>
-            {dayjs(post.create_date).year === dayjs().year
-              ? dayjs(post.create_date).format("MMM DD")
-              : // dayjs(post.create_date).fromNow()
-                dayjs(post.create_date).format("MMM DD, YYYY")}
-          </p>
-        </div>
-        <p>{post.content}</p>
-        <div className={styles.postBottomRow}>
-          {isLiked ? (
-            <div className={styles.likes}>
-              <button
-                type="button"
-                onClick={handlePostUnlike}
-                className={styles.likeUnlikeButton}
-              >
-                <IconContext.Provider value={{ className: styles.unlikeIcon }}>
-                  <RiHeart3Fill />
-                </IconContext.Provider>
-              </button>
-              {likeCount > 0 && (
-                <span className={styles.liked}>{likeCount}</span>
-              )}
-            </div>
-          ) : (
-            <div className={styles.likes}>
-              <button
-                type="button"
-                onClick={handlePostLike}
-                className={styles.likeUnlikeButton}
-              >
-                <IconContext.Provider value={{ className: styles.likeIcon }}>
-                  <RiHeart3Line />
-                </IconContext.Provider>
-              </button>
-              {likeCount > 0 && <span>{likeCount}</span>}
-            </div>
-          )}
-          <Dialog.Trigger asChild>
-            <button
-              type="button"
-              className={styles.commentButton}
-              onClick={handleOpenCommentDialog}
+        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+          <div className={styles.postTopRow}>
+            <a
+              href={`/profile/${post.username}/posts`}
+              onClick={handleGoToProfile}
             >
-              <IconContext.Provider value={{ className: styles.commentIcon }}>
-                <RiChat3Line />
-              </IconContext.Provider>
-            </button>
-          </Dialog.Trigger>
-        </div>
-        <Dialog.Portal>
-          <Dialog.Overlay className={styles.dialogOverlay} />
-          <Dialog.Content className={styles.dialogContent}>
-            <VisuallyHidden.Root>
-              <Dialog.Title>Reply to post {post.id}</Dialog.Title>
-              <Dialog.Description>Accessible description</Dialog.Description>
-            </VisuallyHidden.Root>
-            <Form.Root
-              onSubmit={handleSubmit(handlePostComment)}
-              className={styles.formRoot}
-            >
-              <Form.Field name="content" className={styles.formField}>
-                <div className={styles.formTopRow}>
-                  <Form.Label>Reply</Form.Label>
-                  <Dialog.Close asChild>
-                    <button type="button">Close</button>
-                  </Dialog.Close>
-                </div>
-                <Form.Control asChild>
-                  <textarea
-                    id="content"
-                    placeholder="Write your reply"
-                    {...register("content", {
-                      required: true,
-                      maxLength: {
-                        value: 256,
-                        message: "Max of 256 characters",
-                      },
-                    })}
-                  />
-                </Form.Control>
-                <Form.Message asChild className={styles.formError}>
-                  <p>{errors.content?.message}</p>
-                </Form.Message>
-              </Form.Field>
-              <div className={styles.formBottomRow}>
-                <Dialog.Close asChild>
-                  <button type="button">Cancel</button>
-                </Dialog.Close>
-                <Form.Submit>Reply</Form.Submit>
+              <p className={styles.username}>{post.username}</p>
+            </a>
+
+            <span>·</span>
+            <p className={styles.date}>
+              {dayjs(post.create_date).year === dayjs().year
+                ? dayjs(post.create_date).format("MMM DD")
+                : // dayjs(post.create_date).fromNow()
+                  dayjs(post.create_date).format("MMM DD, YYYY")}
+            </p>
+          </div>
+          <p>{post.content}</p>
+          <div className={styles.postBottomRow}>
+            {isLiked ? (
+              <div className={styles.likes}>
+                <button
+                  type="button"
+                  onClick={handlePostUnlike}
+                  className={styles.likeUnlikeButton}
+                >
+                  <IconContext.Provider
+                    value={{ className: styles.unlikeIcon }}
+                  >
+                    <RiHeart3Fill />
+                  </IconContext.Provider>
+                </button>
+                {likeCount > 0 && (
+                  <span className={styles.liked}>{likeCount}</span>
+                )}
               </div>
-            </Form.Root>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+            ) : (
+              <div className={styles.likes}>
+                <button
+                  type="button"
+                  onClick={handlePostLike}
+                  className={styles.likeUnlikeButton}
+                >
+                  <IconContext.Provider value={{ className: styles.likeIcon }}>
+                    <RiHeart3Line />
+                  </IconContext.Provider>
+                </button>
+                {likeCount > 0 && <span>{likeCount}</span>}
+              </div>
+            )}
+            <Dialog.Trigger asChild>
+              <button
+                type="button"
+                className={styles.commentButton}
+                onClick={handleOpenCommentDialog}
+              >
+                <IconContext.Provider value={{ className: styles.commentIcon }}>
+                  <RiChat3Line />
+                </IconContext.Provider>
+              </button>
+            </Dialog.Trigger>
+          </div>
+          <Dialog.Portal>
+            <Dialog.Overlay className={styles.dialogOverlay} />
+            <Dialog.Content className={styles.dialogContent}>
+              <VisuallyHidden.Root>
+                <Dialog.Title>Reply to post {post.id}</Dialog.Title>
+                <Dialog.Description>Accessible description</Dialog.Description>
+              </VisuallyHidden.Root>
+              <Form.Root
+                onSubmit={handleSubmit(handlePostComment)}
+                className={styles.formRoot}
+              >
+                <Form.Field name="content" className={styles.formField}>
+                  <div className={styles.formTopRow}>
+                    <Form.Label>Reply</Form.Label>
+                    <Dialog.Close asChild>
+                      <button type="button">Close</button>
+                    </Dialog.Close>
+                  </div>
+                  <Form.Control asChild>
+                    <textarea
+                      id="content"
+                      placeholder="Write your reply"
+                      {...register("content", {
+                        required: true,
+                        maxLength: {
+                          value: 256,
+                          message: "Max of 256 characters",
+                        },
+                      })}
+                    />
+                  </Form.Control>
+                  <Form.Message asChild className={styles.formError}>
+                    <p>{errors.content?.message}</p>
+                  </Form.Message>
+                </Form.Field>
+                <div className={styles.formBottomRow}>
+                  <Dialog.Close asChild>
+                    <button type="button">Cancel</button>
+                  </Dialog.Close>
+                  <Form.Submit>Reply</Form.Submit>
+                </div>
+              </Form.Root>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       </div>
     </article>
   );

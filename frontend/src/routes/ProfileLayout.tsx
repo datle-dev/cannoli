@@ -161,7 +161,7 @@ export default function ProfileLayout() {
                 {unfollowButtonText}
               </button>
             )}
-            {user.data?.pk !== viewingUser.data?.id &&
+          {user.data?.pk !== viewingUser.data?.id &&
             !viewingUser.data?.following_user && (
               <button
                 type="button"
