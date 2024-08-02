@@ -58,3 +58,20 @@ class UnlikePost(views.APIView):
             post.liked_by.remove(user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PostDetail(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        post_id = self.kwargs['pk']
+        qs = self.get_queryset()
+        qs = qs.annotate(liked_by_user=Exists(Post.liked_by.through.objects.filter(
+            post_id=OuterRef('pk'),
+            user_id=self.request.user.pk,
+        )))
+        qs = qs.filter(id=post_id)
+        post = qs.first()
+        serializer = PostSerializer(post)
+        return Response(serializer.data)

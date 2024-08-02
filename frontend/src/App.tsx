@@ -33,7 +33,7 @@ export default function App() {
     <>
       <AuthContext.Provider value={{ user }}>
         <RouterProvider router={Router} />
-        <ReactQueryDevtools initialIsOpen={true} />
+        {/* <ReactQueryDevtools initialIsOpen={true} /> */}
       </AuthContext.Provider>
     </>
   );

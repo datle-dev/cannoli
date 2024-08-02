@@ -1,13 +1,14 @@
 import { useState, useContext } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams, NavLink } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchRefresh } from "../utils/fetchUtils";
 import { AuthContext } from "../App";
+import styles from "./ProfileLayout.module.css";
 
 export default function ProfileLayout() {
   const { user } = useContext(AuthContext);
   const routeParams = useParams();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const viewingUser = useQuery({
     queryKey: ["user", "viewing"],
@@ -48,7 +49,7 @@ export default function ProfileLayout() {
     },
     onSuccess: () => {
       console.log("follow mutation success");
-      queryClient.refetchQueries({queryKey: ["user", "viewing"]})
+      queryClient.refetchQueries({ queryKey: ["user", "viewing"] });
     },
   });
 
@@ -75,7 +76,7 @@ export default function ProfileLayout() {
     },
     onSuccess: () => {
       console.log("unfollow mutation success");
-      queryClient.refetchQueries({queryKey: ["user", "viewing"]})
+      queryClient.refetchQueries({ queryKey: ["user", "viewing"] });
     },
   });
 
@@ -93,19 +94,83 @@ export default function ProfileLayout() {
     return <p>Loading...</p>;
   }
 
+  const switchNavLinkClass = ({ isActive, isPending, isTransitioning }) =>
+    [
+      isPending ? styles.pending : "",
+      isActive ? styles.active : "",
+      isTransitioning ? styles.transitioning : "",
+    ].join(" ");
+
   return (
     <>
-      <h2>Profile Layout</h2>
-      <p>profile layout viewing user: {JSON.stringify(viewingUser)}</p>
+      <h2>Profile</h2>
       {user.data?.pk !== viewingUser.data?.id && (
         <>
-          <p>You are {viewingUser.data?.following_user ? "" : "not "}following this user</p>
-          <button type="button" onClick={viewingUser.data?.following_user ? handleUnfollow : handleFollow}>
+          <p>
+            You are {viewingUser.data?.following_user ? "" : "not "}following
+            this user
+          </p>
+          <button
+            type="button"
+            onClick={
+              viewingUser.data?.following_user ? handleUnfollow : handleFollow
+            }
+          >
             {viewingUser.data?.following_user ? "Unfollow" : "Follow"}
           </button>
         </>
       )}
-      <Outlet />
+      <nav className={styles.nav}>
+        <NavLink
+          end
+          to={`/profile/${routeParams.username}/posts`}
+          className={({ isActive, isPending, isTransitioning }) =>
+            [
+              isPending ? styles.pending : "",
+              isActive ? styles.active : "",
+              isTransitioning ? styles.transitioning : "",
+            ].join(" ")
+          }
+        >
+          Posts
+        </NavLink>
+        <NavLink
+          end
+          to={`/profile/${routeParams.username}/liked/posts`}
+          className={({ isActive, isPending, isTransitioning }) =>
+            [
+              isPending ? styles.pending : "",
+              isActive ? styles.active : "",
+              isTransitioning ? styles.transitioning : "",
+            ].join(" ")
+          }
+        >
+          Liked Posts
+        </NavLink>
+        <NavLink
+          end
+          to={`/profile/${routeParams.username}/replies`}
+          className={({ isActive, isPending, isTransitioning }) =>
+            [
+              isPending ? styles.pending : "",
+              isActive ? styles.active : "",
+              isTransitioning ? styles.transitioning : "",
+            ].join(" ")
+          }
+        >
+          Replies
+        </NavLink>
+        <NavLink
+          end
+          to={`/profile/${routeParams.username}/liked/replies`}
+          className={switchNavLinkClass}
+        >
+          Liked Replies
+        </NavLink>
+      </nav>
+      <section className={styles.section}>
+        <Outlet />
+      </section>
     </>
   );
 }

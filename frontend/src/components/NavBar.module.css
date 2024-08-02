@@ -1,0 +1,129 @@
+@import "../variables.css";
+
+.navBar{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.siteTitle {
+    font-family: "Pacifico";
+    font-size: 3rem;
+    transition: 0.3s;
+}
+
+.siteTitle:hover {
+    color: var(--color-accent);
+}
+
+.navLink {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    transition: 0.3s;
+}
+
+.navLink:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.navButton {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-accent);
+    color: var(--color-text-light);
+    border: none;
+    padding: 0.5rem 0;
+    transition: 0.3s;
+}
+
+.navButton:hover {
+    opacity: 0.6;
+}
+
+.navLink,
+.navButton {
+    border-radius: 0.4rem;
+}
+
+.navLink svg,
+.navButton svg {
+    justify-self: end;
+}
+
+.navLink span,
+.navButton span {
+    justify-self: start;
+}
+
+.me {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 0.4rem;
+    transition: 0.3s;
+    padding: 0.5rem;
+}
+
+.me:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.meLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: purple;
+    aspect-ratio: 1/1;
+    font-size: 0.8rem;
+    /* max-width: 64px; */
+    border-radius: 50%;
+    padding: 0.4rem;
+    font-family: 'monospace';
+    font-weight: bold;
+    color: var(--color-text-light);
+    transition: 0.3s;
+}
+
+.avatar:hover {
+    opacity: 0.6;
+}
+
+.dialogOverlay {
+    background-color: black;
+    opacity: 0.4;
+    position: fixed;
+    inset: 0;
+}
+
+.dialogContent {
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dialogTopRow {
+    display: flex;
+    justify-content: space-between;
+}
