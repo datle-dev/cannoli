@@ -1,0 +1,16 @@
+:root {
+  --font-size-base: 16px;
+
+  --color-bg: #fafafa;
+  --color-accent: #1581e6;
+  --color-text-light: #eeeeee;
+  --color-text-dark: #292929;
+  --color-text-subtle: #8a8a8a;
+  --color-bg-hover: #e0e0e0;
+  --color-border: #cecece;
+
+  --min-width: 320px;
+  --max-width: 580px;
+
+  --border-radius-big: 0.5rem;
+}

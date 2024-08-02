@@ -1,11 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { RiHeart3Line, RiHeart3Fill, RiChat3Line } from "react-icons/ri";
+import { IconContext } from "react-icons";
 import styles from "./Post.module.css";
+
+dayjs.extend(relativeTime);
 
 type PostType = {
   id: number;
@@ -17,6 +23,7 @@ type PostType = {
 };
 
 export default function Post({ post }) {
+  const navigate = useNavigate();
   const [likeCount, setLikeCount] = useState(Number(post.like_count));
   const [isLiked, setIsLiked] = useState(Boolean(post.liked_by_user));
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -102,12 +109,14 @@ export default function Post({ post }) {
     },
   });
 
-  function handlePostLike() {
+  function handlePostLike(e) {
+    e.stopPropagation();
     console.log("handle post like");
     likeMutation.mutate();
   }
 
-  function handlePostUnlike() {
+  function handlePostUnlike(e) {
+    e.stopPropagation();
     console.log("handle post unlike");
     unlikeMutation.mutate();
   }
@@ -118,35 +127,88 @@ export default function Post({ post }) {
     setDialogOpen(false);
   }
 
+  function handleClickPost() {
+    if (dialogOpen) {
+      return;
+    } else {
+      navigate(`/post/${post.id}/`);
+    }
+  }
+
+  // the following are only for preventing like/reply button
+  // clicks from triggering underlying post div's navigation
+  // via handleClickPost()
+  function handleOpenCommentDialog(e) {
+    e.stopPropagation();
+  }
+
+  function handleGoToProfile(e) {
+    e.stopPropagation();
+  }
+
   return (
-    <article>
+    <article className={styles.post} onClick={handleClickPost}>
+      <div className={styles.postLeft}>
+        <a href={`/profile/${post.username}/posts`} onClick={handleGoToProfile}>
+          <p className={styles.avatar}>{"> w <"}</p>
+        </a>
+      </div>
+      <div className={styles.postRight}>
       <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className={styles.postTopRow}>
-          <p>id: {post.id}</p>
-          <p>user_id: {post.user_id}</p>
-          <p>create_date: {dayjs(post.create_date).format("MMM YYYY-MM-DD")}</p>
+        <a href={`/profile/${post.username}/posts`} onClick={handleGoToProfile}>
+          <p className={styles.username}>{post.username}</p>
+        </a>
+          
+          <span>·</span>
+          <p className={styles.date}>
+            {dayjs(post.create_date).year === dayjs().year
+              ? dayjs(post.create_date).format("MMM DD")
+              : // dayjs(post.create_date).fromNow()
+                dayjs(post.create_date).format("MMM DD, YYYY")}
+          </p>
         </div>
-        <p>Content: {post.content}</p>
-        {/* <p>create_date: {post.create_date}</p> */}
+        <p>{post.content}</p>
         <div className={styles.postBottomRow}>
           {isLiked ? (
-            <div>
-              <button type="button" onClick={handlePostUnlike}>
-                Unlike
+            <div className={styles.likes}>
+              <button
+                type="button"
+                onClick={handlePostUnlike}
+                className={styles.likeUnlikeButton}
+              >
+                <IconContext.Provider value={{ className: styles.unlikeIcon }}>
+                  <RiHeart3Fill />
+                </IconContext.Provider>
               </button>
-              <span>{likeCount}</span>
-              <span>LIKED</span>
+              {likeCount > 0 && (
+                <span className={styles.liked}>{likeCount}</span>
+              )}
             </div>
           ) : (
-            <div>
-              <button type="button" onClick={handlePostLike}>
-                Like
+            <div className={styles.likes}>
+              <button
+                type="button"
+                onClick={handlePostLike}
+                className={styles.likeUnlikeButton}
+              >
+                <IconContext.Provider value={{ className: styles.likeIcon }}>
+                  <RiHeart3Line />
+                </IconContext.Provider>
               </button>
-              <span>{likeCount}</span>
+              {likeCount > 0 && <span>{likeCount}</span>}
             </div>
           )}
           <Dialog.Trigger asChild>
-            <button type="button">Comment</button>
+            <button
+              type="button"
+              className={styles.commentButton}
+              onClick={handleOpenCommentDialog}
+            >
+              <IconContext.Provider value={{ className: styles.commentIcon }}>
+                <RiChat3Line />
+              </IconContext.Provider>
+            </button>
           </Dialog.Trigger>
         </div>
         <Dialog.Portal>
@@ -194,6 +256,7 @@ export default function Post({ post }) {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
+      </div>
     </article>
   );
 }

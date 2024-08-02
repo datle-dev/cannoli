@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { AuthContext } from "../App";
+import styles from "./LogoutButton.module.css";
 
 export default function LogoutButton() {
   const navigate = useNavigate()
@@ -42,6 +44,11 @@ export default function LogoutButton() {
     console.log("handle logout");
   }
 
-  return <button type="button" onClick={handleLogout}>Logout</button>
+  return (
+    <button type="button" onClick={handleLogout} className={styles.navButton}>
+      <RiLogoutBoxLine />
+      <span>Logout</span>
+    </button>
+  )
 
 }

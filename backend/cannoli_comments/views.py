@@ -15,8 +15,11 @@ class CommentList(generics.ListCreateAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         user_id = self.request.query_params.get('user_id')
+        post_id = self.request.query_params.get('post_id')
         if user_id is not None:
             qs = qs.filter(user_id=user_id)
+        if post_id is not None:
+            qs = qs.filter(post_id=post_id)
         return qs.annotate(liked_by_user=Exists(Comment.liked_by.through.objects.filter(
             comment_id=OuterRef('pk'),
             user_id=self.request.user.pk,
@@ -45,7 +48,7 @@ class LikeComment(views.APIView):
     def post(self, request, format=None):
         serializer = LikeSerializer(data=request.data)
         if serializer.is_valid():
-            comment = Post.objects.get(pk=serializer.data['comment_id'])
+            comment = Comment.objects.get(pk=serializer.data['comment_id'])
             user = User.objects.get(pk=request.user.id)
             comment.liked_by.add(user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

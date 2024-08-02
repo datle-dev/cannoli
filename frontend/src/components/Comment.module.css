@@ -1,0 +1,76 @@
+@import "../variables.css";
+
+.comment{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 400px;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-color: var(--color-border);
+    padding: 0.5rem 1rem;
+    transition: 0.3s;
+}
+
+.comment:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.commentTopRow {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.date {
+    color: var(--color-text-subtle);
+}
+
+.commentBottomRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.8rem;
+}
+
+.liked {
+    color: red;
+}
+
+.likeUnlikeButton, .commentButton {
+    height: 32px;
+    width:  32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    transition: 0.3s;
+}
+
+.likeUnlikeButton:hover {
+    background-color: rgb(253, 198, 198);
+}
+
+.commentButton:hover {
+    background-color: #c0d5e9;
+}
+
+.likeIcon {
+    color: var(--color-text-dark);
+    transition: 0.3s;
+}
+
+.likeUnlikeButton:hover .likeIcon {
+    color: red;
+    
+}
+
+.unlikeIcon {
+    color: red;
+}

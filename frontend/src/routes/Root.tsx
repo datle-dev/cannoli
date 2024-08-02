@@ -1,55 +1,53 @@
-import { Outlet } from "react-router-dom";
 import { useState, useContext } from "react";
+import { Outlet } from "react-router-dom";
 import { AuthContext } from "../App";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { RiPencilFill } from "react-icons/ri";
 import Nav from "../components/Nav";
+import NavMobile from "../components/NavMobile";
 import CreatePostLimited from "../components/CreatePostLimited";
 import LogoutButton from "../components/LogoutButton";
+import NavBar from "../components/NavBar";
+
 import styles from "./Root.module.css";
 
 export default function Root() {
   const { user } = useContext(AuthContext);
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <>
-      <header>
-        {user.data && (
-          <>
-            <Nav />
-            <LogoutButton />
-          </>
-        )}
-      </header>
-      <main>
-        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-          <Dialog.Trigger asChild>
-            <button type="button">Create Post</button>
-          </Dialog.Trigger>
-          <Dialog.Portal>
-            <Dialog.Overlay className={styles.dialogOverlay}/>
-            <Dialog.Content className={styles.dialogContent}>
-              <div className={styles.dialogTopRow}>
-                <Dialog.Title>Create Post</Dialog.Title>
-              <Dialog.Close asChild>
-                <button type="button">Close</button>
-              </Dialog.Close>
-              </div>
-              <Dialog.Description>Accessible description</Dialog.Description>
-              <CreatePostLimited onSuccessSetDialogOpen={setDialogOpen}/>
-              <Dialog.Close asChild>
-                <button type="button">Cancel</button>
-              </Dialog.Close>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
+      {/* <header></header> */}
+      <aside className={styles.aside}>
+        {user.data && <NavBar />}
+      </aside>
+      <main className={styles.main}>
         <Outlet />
       </main>
-      <footer>
+      <aside className={styles.right}>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+      </aside>
+      <div className={styles.bottom}>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+      </div>
+      {/* <NavMobile /> */}
+      {/* <footer className={styles.footer}>
         <h2>Footer</h2>
         <Nav />
-      </footer>
+      </footer> */}
     </>
   );
 }

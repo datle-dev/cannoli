@@ -1,3 +1,5 @@
+@import "../variables.css";
+
 .dialogOverlay {
   background-color: black;
   opacity: 0.4;
@@ -6,7 +8,6 @@
 }
 
 .dialogContent {
-  border: 1px solid black;
   background-color: white;
   position: fixed;
   top: 50%;
@@ -16,13 +17,126 @@
   max-height: 300px;
 }
 
+.post {
+    display: flex;
+    gap: 0.5rem;
+    width: 400px;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-color: var(--color-border);
+    padding: 0.5rem 1rem;
+    transition: 0.3s;
+}
+
+.postLeft {
+    text-wrap: nowrap;
+}
+
+.postRight {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.post:hover {
+    background-color: var(--color-bg-hover);
+}
+
 .postTopRow {
-  /* border: 1px solid black; */
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: purple;
+    aspect-ratio: 1/1;
+    font-size: 0.8rem;
+    border-radius: 50%;
+    padding: 0.4rem;
+    font-family: 'monospace';
+    font-weight: bold;
+    color: var(--color-text-light);
+    transition: 0.3s;
+}
+
+.avatar:hover {
+    opacity: 0.6;
+}
+
+.username {
+    transition: all 0.3s;
+}
+
+.username:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+.date {
+    color: var(--color-text-subtle);
 }
 
 .postBottomRow {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  justify-content: space-between;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.8rem;
+}
+
+.liked {
+    color: red;
+}
+
+.likeUnlikeButton, .commentButton {
+    height: 32px;
+    width:  32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    transition: 0.3s;
+}
+
+.likeUnlikeButton:hover {
+    background-color: rgb(253, 198, 198);
+}
+
+.commentButton:hover {
+    background-color: #c0d5e9;
+}
+
+.likeIcon {
+    color: var(--color-text-dark);
+    transition: 0.3s;
+}
+
+.likeUnlikeButton:hover .likeIcon {
+    color: red;
+    
+}
+
+.unlikeIcon {
+    color: red;
+}
+
+.commentIcon {
+    color: var(--color-text-dark);
+    transition: 0.3s;
+}
+
+.commentButton:hover .commentIcon {
+    color: var(--color-accent);
 }
 
 .formTopRow {

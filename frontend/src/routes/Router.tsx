@@ -10,6 +10,7 @@ import ProfileLikedReplies from "./ProfileLikedReplies.tsx";
 import Login from "./Login.tsx";
 import Register from "./Register.tsx";
 import User from "./User.tsx";
+import PostDetail from "./PostDetail.tsx";
 
 const Router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const Router = createBrowserRouter([
         element: <ProfileLayout />,
         children: [
           {
-            index: true,
+            path: "posts",
             element: <ProfilePosts />
           },
           {
@@ -54,6 +55,10 @@ const Router = createBrowserRouter([
       {
         path: "user/:id",
         element: <User />,
+      },
+      {
+        path: "post/:id",
+        element: <PostDetail />,
       },
     ],
   },
