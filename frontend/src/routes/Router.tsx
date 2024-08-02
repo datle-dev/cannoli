@@ -43,11 +43,11 @@ const Router = createBrowserRouter([
             path: "liked/replies",
             element: <ProfileLikedReplies />,
           },
-          {
-            path: "edit",
-            element: <EditProfile />,
-          },
         ],
+      },
+      {
+        path: "edit/profile",
+        element: <EditProfile />,
       },
       {
         path: "login",
