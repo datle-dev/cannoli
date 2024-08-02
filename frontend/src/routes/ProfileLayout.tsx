@@ -120,22 +120,48 @@ export default function ProfileLayout() {
   return (
     <>
       <h2>Profile</h2>
-      {user.data?.pk !== viewingUser.data?.id && (
-        <>
-          <p>
-            You are {viewingUser.data?.following_user ? "" : "not "}following
-            this user
-          </p>
+      <div className={styles.bio}>
+        <p className={styles.avatar}>{"T ~ T"}</p>
+        <div className={styles.usernameRow}>
+          <div className={styles.usernameRowLeft}>
+            <h3>{viewingProfile.data.username}</h3>
+            <p>{viewingUser.data.followed_by_user && "Follows you"}</p>
+          </div>
+          {user.data?.pk !== viewingUser.data?.id &&
+            viewingUser.data?.following_user && (
+              <button
+                type="button"
+                onClick={handleUnfollow}
+                onMouseEnter={handleUnfollowButtonMouseEnter}
+                onMouseLeave={handleUnfollowButtonMouseLeave}
+                className={styles.unfollowButton}
+              >
+                {unfollowButtonText}
+              </button>
+            )}
+            {user.data?.pk !== viewingUser.data?.id &&
+            !viewingUser.data?.following_user && (
           <button
             type="button"
-            onClick={
-              viewingUser.data?.following_user ? handleUnfollow : handleFollow
-            }
+                onClick={handleFollow}
+                className={styles.followButton}
           >
-            {viewingUser.data?.following_user ? "Unfollow" : "Follow"}
+                Follow
           </button>
-        </>
-      )}
+            )}
+        </div>
+        <p>{viewingProfile.data.about}</p>
+        <p className={styles.joinDate}>
+          <RiCalendar2Line /> Joined{" "}
+          {dayjs(viewingUser.data.date_joined).format("MMMM YYYY")}
+        </p>
+        <p>{viewingUser.data.following_count} Following</p>
+        <p>
+          {viewingUser.data.follower_count}{" "}
+          {viewingUser.data.follower_count === 1 ? "Follower" : "Followers"}
+        </p>
+      </div>
+
       <nav className={styles.nav}>
         <NavLink
           end
@@ -184,6 +210,7 @@ export default function ProfileLayout() {
           Liked Replies
         </NavLink>
       </nav>
+
       <section className={styles.section}>
         <Outlet />
       </section>
