@@ -11,6 +11,7 @@ import Login from "./Login.tsx";
 import Register from "./Register.tsx";
 import User from "./User.tsx";
 import PostDetail from "./PostDetail.tsx";
+import EditProfile from "./EditProfile.tsx";
 
 const Router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const Router = createBrowserRouter([
           {
             path: "liked/replies",
             element: <ProfileLikedReplies />,
+          },
+          {
+            path: "edit",
+            element: <EditProfile />,
           },
         ],
       },
