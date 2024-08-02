@@ -31,4 +31,79 @@
     width: 400px;
 }
 
+.bio {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.usernameRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.usernameRowLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.usernameRowLeft p {
+    font-size: 0.8rem;
+    background-color: var(--color-bg-hover);
+    padding: 0 0.2rem;
+    border-radius: 0.1rem;
+}
+
+.followButton {
+    background: var(--color-text-dark);
+    color: var(--color-text-light);
+    padding: 0.5rem;
+    min-width: 100px;
+    border-style: none;
+    border-radius: 0.4rem;
+    transition: 0.3s;
+}
+
+.followButton:hover {
+    opacity: 0.6;
+}
+
+.unfollowButton {
+    background: var(--color-bg);
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-text-dark);
+    padding: 0.5rem;
+    min-width: 100px;
+    border-radius: 0.4rem;
+    transition: 0.3s;
+}
+
+.unfollowButton:hover {
+    color: red;
+    background-color: rgb(231, 166, 166);
+    border: 1px solid red;
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: purple;
+    aspect-ratio: 1/1;
+    font-size: 1.6rem;
+    max-width: 96px;
+    border-radius: 50%;
+    padding: 0.4rem;
+    font-family: 'monospace';
+    font-weight: bold;
+    color: var(--color-text-light);
+    transition: 0.3s;
+}
+
+.joinDate {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
 
