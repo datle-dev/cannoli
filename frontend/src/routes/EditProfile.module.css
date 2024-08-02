@@ -1,0 +1,10 @@
+.avatarPreview {
+    display: flex;
+    gap: 1ch;
+    font-family: "monospace";
+}
+
+.avatarTextInput {
+    width: 3ch;
+    text-align: center;
+}
