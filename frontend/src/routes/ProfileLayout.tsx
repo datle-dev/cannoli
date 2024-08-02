@@ -152,13 +152,13 @@ export default function ProfileLayout() {
             )}
             {user.data?.pk !== viewingUser.data?.id &&
             !viewingUser.data?.following_user && (
-          <button
-            type="button"
+              <button
+                type="button"
                 onClick={handleFollow}
                 className={styles.followButton}
-          >
+              >
                 Follow
-          </button>
+              </button>
             )}
         </div>
         <p>{viewingProfile.data.about}</p>
