@@ -9,6 +9,7 @@ export default function ProfileLayout() {
   const { user } = useContext(AuthContext);
   const routeParams = useParams();
   const queryClient = useQueryClient();
+  const [unfollowButtonText, setUnfollowButtonText] = useState("Following");
 
   const viewingUser = useQuery({
     queryKey: ["user", "viewing"],
@@ -116,6 +117,14 @@ export default function ProfileLayout() {
       isActive ? styles.active : "",
       isTransitioning ? styles.transitioning : "",
     ].join(" ");
+
+  function handleUnfollowButtonMouseEnter() {
+    setUnfollowButtonText("Unfollow");
+  }
+
+  function handleUnfollowButtonMouseLeave() {
+    setUnfollowButtonText("Following");
+  }
 
   return (
     <>
