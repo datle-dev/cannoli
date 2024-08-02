@@ -1,6 +1,8 @@
 import { useState, useContext } from "react";
 import { Outlet, useParams, NavLink } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { RiCalendar2Line } from "react-icons/ri";
 import { fetchRefresh } from "../utils/fetchUtils";
 import { AuthContext } from "../App";
 import styles from "./ProfileLayout.module.css";
@@ -9,12 +11,29 @@ export default function ProfileLayout() {
   const { user } = useContext(AuthContext);
   const routeParams = useParams();
   const queryClient = useQueryClient();
+  const [unfollowButtonText, setUnfollowButtonText] = useState("Following");
 
   const viewingUser = useQuery({
     queryKey: ["user", "viewing"],
     queryFn: async () => {
       const res = await fetchRefresh(
         `http://127.0.0.1:8000/user/${routeParams.username}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      );
+      return res.json();
+    },
+    retry: 1,
+  });
+
+  const viewingProfile = useQuery({
+    queryKey: ["profile", "viewing"],
+    queryFn: async () => {
+      const res = await fetchRefresh(
+        `http://127.0.0.1:8000/profiles/${viewingUser.data.profile_id}/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access")}`,
@@ -90,7 +109,7 @@ export default function ProfileLayout() {
     unfollowMutation.mutate();
   }
 
-  if (viewingUser.isPending) {
+  if (viewingUser.isPending || viewingProfile.isPending) {
     return <p>Loading...</p>;
   }
 
@@ -101,25 +120,59 @@ export default function ProfileLayout() {
       isTransitioning ? styles.transitioning : "",
     ].join(" ");
 
+  function handleUnfollowButtonMouseEnter() {
+    setUnfollowButtonText("Unfollow");
+  }
+
+  function handleUnfollowButtonMouseLeave() {
+    setUnfollowButtonText("Following");
+  }
+
   return (
     <>
       <h2>Profile</h2>
-      {user.data?.pk !== viewingUser.data?.id && (
-        <>
-          <p>
-            You are {viewingUser.data?.following_user ? "" : "not "}following
-            this user
-          </p>
-          <button
-            type="button"
-            onClick={
-              viewingUser.data?.following_user ? handleUnfollow : handleFollow
-            }
-          >
-            {viewingUser.data?.following_user ? "Unfollow" : "Follow"}
-          </button>
-        </>
-      )}
+      <div className={styles.bio}>
+        <p className={styles.avatar}>{"T ~ T"}</p>
+        <div className={styles.usernameRow}>
+          <div className={styles.usernameRowLeft}>
+            <h3>{viewingProfile.data.username}</h3>
+            <p>{viewingUser.data.followed_by_user && "Follows you"}</p>
+          </div>
+          {user.data?.pk !== viewingUser.data?.id &&
+            viewingUser.data?.following_user && (
+              <button
+                type="button"
+                onClick={handleUnfollow}
+                onMouseEnter={handleUnfollowButtonMouseEnter}
+                onMouseLeave={handleUnfollowButtonMouseLeave}
+                className={styles.unfollowButton}
+              >
+                {unfollowButtonText}
+              </button>
+            )}
+            {user.data?.pk !== viewingUser.data?.id &&
+            !viewingUser.data?.following_user && (
+              <button
+                type="button"
+                onClick={handleFollow}
+                className={styles.followButton}
+              >
+                Follow
+              </button>
+            )}
+        </div>
+        <p>{viewingProfile.data.about}</p>
+        <p className={styles.joinDate}>
+          <RiCalendar2Line /> Joined{" "}
+          {dayjs(viewingUser.data.date_joined).format("MMMM YYYY")}
+        </p>
+        <p>{viewingUser.data.following_count} Following</p>
+        <p>
+          {viewingUser.data.follower_count}{" "}
+          {viewingUser.data.follower_count === 1 ? "Follower" : "Followers"}
+        </p>
+      </div>
+
       <nav className={styles.nav}>
         <NavLink
           end
@@ -168,6 +221,7 @@ export default function ProfileLayout() {
           Liked Replies
         </NavLink>
       </nav>
+
       <section className={styles.section}>
         <Outlet />
       </section>
