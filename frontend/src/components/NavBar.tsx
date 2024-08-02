@@ -113,11 +113,16 @@ export default function NavBar() {
         <div className={styles.me}>
           <div className={styles.meLeft}>
             <a
-              href={`/profile/${profileMe.data.username}`}
+              href={`/profile/${profileMe.data.username}/posts`}
               onClick={handleGoToProfile}
             >
-              {/* <p className={styles.avatar}>{profileMe.data.avatar}</p> */}
-              <p className={styles.avatar}>{"T ~ T"}</p>
+              <p className={styles.avatar}>
+              {profileMe.data.avatar[0] +
+                " " +
+                profileMe.data.avatar[1] +
+                " " +
+                profileMe.data.avatar[2]}
+              </p>
             </a>
             <p>{profileMe.data.username}</p>
           </div>

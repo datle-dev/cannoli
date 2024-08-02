@@ -55,6 +55,20 @@
     border-radius: 0.1rem;
 }
 
+.editProfileButton {
+    color: var(--color-text-dark);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-text-dark);
+    transition: 0.3s;
+    padding: 0.5rem;
+    min-width: 100px;
+    border-radius: 0.4rem;
+}
+
+.editProfileButton:hover {
+    background: var(--color-bg-hover);
+}
+
 .followButton {
     background: var(--color-text-dark);
     color: var(--color-text-light);

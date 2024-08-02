@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Outlet, useParams, NavLink } from "react-router-dom";
+import { Outlet, useParams, NavLink, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { RiCalendar2Line } from "react-icons/ri";
@@ -11,6 +11,7 @@ export default function ProfileLayout() {
   const { user } = useContext(AuthContext);
   const routeParams = useParams();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [unfollowButtonText, setUnfollowButtonText] = useState("Following");
 
   const viewingUser = useQuery({
@@ -128,11 +129,21 @@ export default function ProfileLayout() {
     setUnfollowButtonText("Following");
   }
 
+  function handleEditProfile() {
+    navigate("/edit/profile")
+  }
+
   return (
     <>
       <h2>Profile</h2>
       <div className={styles.bio}>
-        <p className={styles.avatar}>{"T ~ T"}</p>
+        <p className={styles.avatar}>
+          {viewingProfile.data.avatar[0] +
+            " " +
+            viewingProfile.data.avatar[1] +
+            " " +
+            viewingProfile.data.avatar[2]}
+        </p>
         <div className={styles.usernameRow}>
           <div className={styles.usernameRowLeft}>
             <h3>{viewingProfile.data.username}</h3>
@@ -150,7 +161,7 @@ export default function ProfileLayout() {
                 {unfollowButtonText}
               </button>
             )}
-            {user.data?.pk !== viewingUser.data?.id &&
+          {user.data?.pk !== viewingUser.data?.id &&
             !viewingUser.data?.following_user && (
               <button
                 type="button"
@@ -160,6 +171,15 @@ export default function ProfileLayout() {
                 Follow
               </button>
             )}
+          {user.data?.pk === viewingUser.data?.id && (
+            <button
+            type="button"
+            onClick={handleEditProfile}
+            className={styles.editProfileButton}
+          >
+            Edit Profile
+          </button>
+          )}
         </div>
         <p>{viewingProfile.data.about}</p>
         <p className={styles.joinDate}>
