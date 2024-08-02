@@ -113,7 +113,7 @@ export default function NavBar() {
         <div className={styles.me}>
           <div className={styles.meLeft}>
             <a
-              href={`/profile/${profileMe.data.username}`}
+              href={`/profile/${profileMe.data.username}/posts`}
               onClick={handleGoToProfile}
             >
               <p className={styles.avatar}>
