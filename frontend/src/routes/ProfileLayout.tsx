@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Outlet, useParams, NavLink } from "react-router-dom";
+import { Outlet, useParams, NavLink, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { RiCalendar2Line } from "react-icons/ri";
@@ -11,6 +11,7 @@ export default function ProfileLayout() {
   const { user } = useContext(AuthContext);
   const routeParams = useParams();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [unfollowButtonText, setUnfollowButtonText] = useState("Following");
 
   const viewingUser = useQuery({
@@ -170,6 +171,15 @@ export default function ProfileLayout() {
                 Follow
               </button>
             )}
+          {user.data?.pk === viewingUser.data?.id && (
+            <button
+            type="button"
+            onClick={handleEditProfile}
+            className={styles.editProfileButton}
+          >
+            Edit Profile
+          </button>
+          )}
         </div>
         <p>{viewingProfile.data.about}</p>
         <p className={styles.joinDate}>
