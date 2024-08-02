@@ -150,7 +150,13 @@ export default function Post({ post }) {
     <article className={styles.post} onClick={handleClickPost}>
       <div className={styles.postLeft}>
         <a href={`/profile/${post.username}/posts`} onClick={handleGoToProfile}>
-          <p className={styles.avatar}>{"> w <"}</p>
+          <p className={styles.avatar}>
+            {post.avatar[0] +
+              " " +
+              post.avatar[1] +
+              " " +
+              post.avatar[2]}
+          </p>
         </a>
       </div>
       <div className={styles.postRight}>

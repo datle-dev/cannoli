@@ -128,11 +128,21 @@ export default function ProfileLayout() {
     setUnfollowButtonText("Following");
   }
 
+  function handleEditProfile() {
+    navigate("/edit/profile")
+  }
+
   return (
     <>
       <h2>Profile</h2>
       <div className={styles.bio}>
-        <p className={styles.avatar}>{"T ~ T"}</p>
+        <p className={styles.avatar}>
+          {viewingProfile.data.avatar[0] +
+            " " +
+            viewingProfile.data.avatar[1] +
+            " " +
+            viewingProfile.data.avatar[2]}
+        </p>
         <div className={styles.usernameRow}>
           <div className={styles.usernameRowLeft}>
             <h3>{viewingProfile.data.username}</h3>
