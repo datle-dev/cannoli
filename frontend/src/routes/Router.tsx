@@ -12,6 +12,8 @@ import Register from "./Register.tsx";
 import User from "./User.tsx";
 import PostDetail from "./PostDetail.tsx";
 import EditProfile from "./EditProfile.tsx";
+import ProfileFollowing from "./ProfileFollowing.tsx";
+import ProfileFollowers from "./ProfileFollowers.tsx";
 
 const Router = createBrowserRouter([
   {
@@ -44,6 +46,14 @@ const Router = createBrowserRouter([
             element: <ProfileLikedReplies />,
           },
         ],
+      },
+      {
+        path: "profile/:username/following",
+        element: <ProfileFollowing />,
+      },
+      {
+        path: "profile/:username/followers",
+        element: <ProfileFollowers />,
       },
       {
         path: "edit/profile",
