@@ -3,6 +3,8 @@ from rest_framework import generics, permissions, status, views
 from rest_framework.response import Response
 from .models import User, UserFollowing
 from .serializers import UserSerializer, UserFollowSerializer
+from cannoli_profiles.models import Profile
+from cannoli_profiles.serializers import ProfileSerializer
 
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
@@ -68,3 +70,33 @@ class UserUnfollow(views.APIView):
             user_following.delete()
             return Response({'message': 'User unfollowed'}, status=status.HTTP_202_ACCEPTED)
         return Response({'message': 'Unfollow unsuccessful'}, status=status.HTTP_404_NOT_FOUND)
+
+class UserFollowingUser(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        qs_follows = UserFollowing.objects.all()
+        qs_follows = qs_follows.filter(following_user_id=pk)
+        serializer_follows = UserFollowSerializer(qs_follows, many=True)
+        print(f"following: {serializer_follows.data}")
+        user_list = [item["user_id"] for item in serializer_follows.data]
+        qs_profiles = Profile.objects.all()
+        qs_profiles = qs_profiles.filter(user_id__in=user_list)
+        serializer_profiles = ProfileSerializer(qs_profiles, many=True)
+        return Response(serializer_profiles.data)
+
+class UserFollowersUser(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        qs_follows = UserFollowing.objects.all()
+        qs_follows = qs_follows.filter(user_id=pk)
+        serializer_follows = UserFollowSerializer(qs_follows, many=True)
+        print(f"followers: {serializer_follows.data}")
+        user_list = [item["following_user_id"] for item in serializer_follows.data]
+        qs_profiles = Profile.objects.all()
+        qs_profiles = qs_profiles.filter(user_id__in=user_list)
+        serializer_profiles = ProfileSerializer(qs_profiles, many=True)
+        return Response(serializer_profiles.data)
