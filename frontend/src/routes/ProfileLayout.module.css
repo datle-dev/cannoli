@@ -121,3 +121,7 @@
     gap: 0.4rem;
 }
 
+.followingFollowerLink:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
