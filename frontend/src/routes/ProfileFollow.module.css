@@ -1,0 +1,38 @@
+.nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.nav a {
+    text-align: center;
+    transition: 0.3s;
+    padding: 1rem 0;
+}
+
+.nav a.active {
+    border-bottom: 4px solid var(--color-accent);
+    transition: none !important;
+}
+
+.nav a.pending {
+}
+
+.nav a.transitioning {
+}
+
+.nav a:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.back {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.back:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
