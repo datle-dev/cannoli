@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Outlet, useParams, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, useParams, NavLink, Link, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { RiCalendar2Line } from "react-icons/ri";
@@ -186,11 +186,13 @@ export default function ProfileLayout() {
           <RiCalendar2Line /> Joined{" "}
           {dayjs(viewingUser.data.date_joined).format("MMMM YYYY")}
         </p>
-        <p>{viewingUser.data.following_count} Following</p>
-        <p>
+        <Link to={`/profile/${viewingUser.data.username}/following`} className={styles.followingFollowerLink}>
+          {viewingUser.data.following_count} Following
+        </Link>
+        <Link to={`/profile/${viewingUser.data.username}/followers`} className={styles.followingFollowerLink}>
           {viewingUser.data.follower_count}{" "}
           {viewingUser.data.follower_count === 1 ? "Follower" : "Followers"}
-        </p>
+        </Link>
       </div>
 
       <nav className={styles.nav}>
