@@ -14,6 +14,7 @@ import PostDetail from "./PostDetail.tsx";
 import EditProfile from "./EditProfile.tsx";
 import ProfileFollowing from "./ProfileFollowing.tsx";
 import ProfileFollowers from "./ProfileFollowers.tsx";
+import Landing from "./Landing.tsx";
 
 const Router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const Router = createBrowserRouter([
     element: <Root />,
     errorElement: <Error />,
     children: [
+      {
+        index: true,
+        element: <Landing />,
+      },
       {
         path: "home",
         element: <Home />,
