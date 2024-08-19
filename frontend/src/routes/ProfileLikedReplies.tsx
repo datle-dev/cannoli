@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import Comment from "../components/Comment";
 import { fetchRefresh } from "../utils/fetchUtils";
 
 export default function ProfileLikedReplies() {
@@ -36,7 +37,7 @@ export default function ProfileLikedReplies() {
       {likedReplies.isSuccess && (
         <>
           {likedReplies.data?.map((reply, index) => {
-            return <p key={index}>{JSON.stringify(reply)}</p>;
+            return <Comment comment={reply} key={index}/>;
           })}
         </>
       )}
