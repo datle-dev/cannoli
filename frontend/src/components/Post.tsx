@@ -7,7 +7,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { RiHeart3Line, RiHeart3Fill, RiChat3Line } from "react-icons/ri";
+import { RiHeart3Line, RiHeart3Fill, RiChat3Line, RiCloseFill } from "react-icons/ri";
 import { IconContext } from "react-icons";
 import styles from "./Post.module.css";
 
@@ -235,9 +235,11 @@ export default function Post({ post }) {
               >
                 <Form.Field name="content" className={styles.formField}>
                   <div className={styles.formTopRow}>
-                    <Form.Label>Reply</Form.Label>
+                    <Form.Label><h2>Reply</h2></Form.Label>
                     <Dialog.Close asChild>
-                      <button type="button">Close</button>
+                      <button type="button" className={styles.replyCloseButton}>
+                        <RiCloseFill />
+                      </button>
                     </Dialog.Close>
                   </div>
                   <Form.Control asChild>
@@ -259,9 +261,9 @@ export default function Post({ post }) {
                 </Form.Field>
                 <div className={styles.formBottomRow}>
                   <Dialog.Close asChild>
-                    <button type="button">Cancel</button>
+                    <button type="button" className={styles.replyCancelButton}>Cancel</button>
                   </Dialog.Close>
-                  <Form.Submit>Reply</Form.Submit>
+                  <Form.Submit className={styles.replyButton}>Reply</Form.Submit>
                 </div>
               </Form.Root>
             </Dialog.Content>
