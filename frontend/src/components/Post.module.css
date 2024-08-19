@@ -20,12 +20,16 @@
 .post {
     display: flex;
     gap: 0.5rem;
-    width: 400px;
+    max-width: 480px;
     border-width: 1px 1px 0 1px;
     border-style: solid;
     border-color: var(--color-border);
     padding: 0.5rem 1rem;
     transition: 0.3s;
+}
+
+.post:last-child {
+    border-width: 1px 1px 1px 1px;
 }
 
 .postLeft {

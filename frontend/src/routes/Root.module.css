@@ -28,7 +28,6 @@
 }
 
 .bottom {
-    background-color: azure;
     grid-row: 2/3;
     grid-column: 1/4;
     display: flex;
@@ -37,6 +36,7 @@
     bottom: 0;
     gap: 1rem;
     display: none;
+    width: 100%;
 }
 
 @media only screen and (max-width: 960px) {
