@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import Comment from "../components/Comment";
 import { fetchRefresh } from "../utils/fetchUtils";
 
 export default function ProfileReplies() {
@@ -13,7 +14,7 @@ export default function ProfileReplies() {
     queryKey: ["replies", "user", "viewing"],
     queryFn: async () => {
       const res = await fetchRefresh(
-        `http://127.0.0.1:8000/posts/?user_id=${viewingUserId}`,
+        `http://127.0.0.1:8000/comments/?user_id=${viewingUserId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access")}`,
@@ -35,7 +36,7 @@ export default function ProfileReplies() {
       {replies.isSuccess && (
         <>
           {replies.data?.map((reply, index) => {
-            return <p key={index}>{reply.content}</p>;
+            return <Comment comment={reply} key={index}/>;
           })}
         </>
       )}

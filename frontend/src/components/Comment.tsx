@@ -89,46 +89,62 @@ export default function Comment({ comment }) {
 
   return (
     <article className={styles.comment}>
-      <div className={styles.commentTopRow}>
-        <p>{comment.avatar}</p>
-        <p>@{comment.username}</p>
-        <span>·</span>
-        <p className={styles.date}>
-          {dayjs(comment.create_date).year === dayjs().year
-            ? dayjs(comment.create_date).format("MMM DD")
-            : // dayjs(post.create_date).fromNow()
-              dayjs(comment.create_date).format("MMM DD, YYYY")}
-        </p>
+      <div className={styles.commentLeft}>
+        <a href={`/profile/${comment.username}/posts`}>
+          <p className={styles.avatar}>
+            {comment.avatar[0] +
+              " " +
+              comment.avatar[1] +
+              " " +
+              comment.avatar[2]}
+          </p>
+        </a>
       </div>
-      <p>{comment.content}</p>
-      <div className={styles.commentBottomRow}>
-        {isLiked ? (
-          <div className={styles.likes}>
-            <button
-              type="button"
-              onClick={handlePostUnlike}
-              className={styles.likeUnlikeButton}
-            >
-              <IconContext.Provider value={{ className: styles.unlikeIcon }}>
-                <RiHeart3Fill />
-              </IconContext.Provider>
-            </button>
-            {likeCount > 0 && <span className={styles.liked}>{likeCount}</span>}
-          </div>
-        ) : (
-          <div className={styles.likes}>
-            <button
-              type="button"
-              onClick={handlePostLike}
-              className={styles.likeUnlikeButton}
-            >
-              <IconContext.Provider value={{ className: styles.likeIcon }}>
-                <RiHeart3Line />
-              </IconContext.Provider>
-            </button>
-            {likeCount > 0 && <span>{likeCount}</span>}
-          </div>
-        )}
+      <div className={styles.commentRight}>
+        <div className={styles.commentTopRow}>
+          <a href={`/profile/${comment.username}/posts`}>
+            <p className={styles.username}>{comment.username}</p>
+          </a>
+          <span>·</span>
+          <p className={styles.date}>
+            {dayjs(comment.create_date).year === dayjs().year
+              ? dayjs(comment.create_date).format("MMM DD")
+              : // dayjs(post.create_date).fromNow()
+                dayjs(comment.create_date).format("MMM DD, YYYY")}
+          </p>
+        </div>
+        <p>{comment.content}</p>
+        <div className={styles.commentBottomRow}>
+          {isLiked ? (
+            <div className={styles.likes}>
+              <button
+                type="button"
+                onClick={handlePostUnlike}
+                className={styles.likeUnlikeButton}
+              >
+                <IconContext.Provider value={{ className: styles.unlikeIcon }}>
+                  <RiHeart3Fill />
+                </IconContext.Provider>
+              </button>
+              {likeCount > 0 && (
+                <span className={styles.liked}>{likeCount}</span>
+              )}
+            </div>
+          ) : (
+            <div className={styles.likes}>
+              <button
+                type="button"
+                onClick={handlePostLike}
+                className={styles.likeUnlikeButton}
+              >
+                <IconContext.Provider value={{ className: styles.likeIcon }}>
+                  <RiHeart3Line />
+                </IconContext.Provider>
+              </button>
+              {likeCount > 0 && <span>{likeCount}</span>}
+            </div>
+          )}
+        </div>
       </div>
     </article>
   );

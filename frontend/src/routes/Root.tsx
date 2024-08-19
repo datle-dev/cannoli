@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
@@ -9,6 +9,7 @@ import NavMobile from "../components/NavMobile";
 import CreatePostLimited from "../components/CreatePostLimited";
 import LogoutButton from "../components/LogoutButton";
 import NavBar from "../components/NavBar";
+import NavBottom from "../components/NavBottom";
 
 import styles from "./Root.module.css";
 
@@ -31,17 +32,7 @@ export default function Root() {
         <p>test</p>
       </aside>
       <div className={styles.bottom}>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
+        <NavBottom />
       </div>
       {/* <NavMobile /> */}
       {/* <footer className={styles.footer}>

@@ -1,15 +1,28 @@
 @import "../variables.css";
 
-.comment{
+.comment {
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
-    width: 400px;
+    max-width: 480px;
     border-width: 1px 1px 0 1px;
     border-style: solid;
     border-color: var(--color-border);
     padding: 0.5rem 1rem;
     transition: 0.3s;
+}
+
+.comment:last-child {
+    border-width: 1px 1px 1px 1px;
+}
+
+.commentLeft {
+    text-wrap: nowrap;
+}
+
+.commentRight {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .comment:hover {
@@ -18,7 +31,36 @@
 
 .commentTopRow {
   display: flex;
+  align-items: center;
   gap: 0.2rem;
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: purple;
+    aspect-ratio: 1/1;
+    font-size: 0.8rem;
+    border-radius: 50%;
+    padding: 0.4rem;
+    font-family: 'monospace';
+    font-weight: bold;
+    color: var(--color-text-light);
+    transition: 0.3s;
+}
+
+.avatar:hover {
+    opacity: 0.6;
+}
+
+.username {
+    transition: all 0.3s;
+}
+
+.username:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
 }
 
 .date {

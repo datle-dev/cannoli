@@ -79,6 +79,7 @@ export default function NavBar() {
         <Link
           to={`profile/${user.data.username}/posts`}
           className={styles.navLink}
+          reloadDocument
         >
           <RxPerson />
           <span>Profile</span>
@@ -112,18 +113,13 @@ export default function NavBar() {
       {profileMe.isSuccess && (
         <div className={styles.me}>
           <div className={styles.meLeft}>
-            <a
-              href={`/profile/${profileMe.data.username}/posts`}
-              onClick={handleGoToProfile}
-            >
-              <p className={styles.avatar}>
+            <p className={styles.avatar}>
               {profileMe.data.avatar[0] +
                 " " +
                 profileMe.data.avatar[1] +
                 " " +
                 profileMe.data.avatar[2]}
-              </p>
-            </a>
+            </p>
             <p>{profileMe.data.username}</p>
           </div>
           <div className={styles.meRight}>

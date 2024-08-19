@@ -1,0 +1,119 @@
+@import "../variables.css";
+
+.navBottom{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0.5rem;
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-bg-hover);
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column: 1/3;
+    gap: 0.5rem;
+}
+
+.more {
+    display: grid;
+    place-content: center;
+}
+
+.navLink {
+    display: grid;
+    place-content: center;
+    width: 100%;
+    padding: 0.5rem 0;
+    transition: 0.3s;
+}
+
+.navLink:hover {
+    background-color: var(--color-bg-hover);
+    aspect-ratio: 1/1;
+    padding: 0.5rem;
+}
+
+.navButton {
+    display: grid;
+    place-content: center;
+    background-color: var(--color-bg);
+    border: none;
+    aspect-ratio: 1/1;
+    padding: 0.5rem;
+    transition: 0.3s;
+}
+
+.navButton:hover {
+    /* opacity: 0.6; */
+    color: white;
+    background: var(--color-accent);
+}
+
+.navLink,
+.navButton {
+    
+    border-radius: 50%;
+}
+
+.me {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 0.4rem;
+    transition: 0.3s;
+    padding: 0.5rem;
+}
+
+.me:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.meLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: purple;
+    aspect-ratio: 1/1;
+    font-size: 0.8rem;
+    /* max-width: 64px; */
+    border-radius: 50%;
+    padding: 0.4rem;
+    font-family: 'monospace';
+    font-weight: bold;
+    color: var(--color-text-light);
+    transition: 0.3s;
+}
+
+.avatar:hover {
+    opacity: 0.6;
+}
+
+.dialogOverlay {
+    background-color: black;
+    opacity: 0.4;
+    position: fixed;
+    inset: 0;
+}
+
+.dialogContent {
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dialogTopRow {
+    display: flex;
+    justify-content: space-between;
+}
