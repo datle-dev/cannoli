@@ -8,13 +8,61 @@
 }
 
 .dialogContent {
-  background-color: white;
+  background-color: var(--color-bg);
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 500px;
-  max-height: 300px;
+  width: 300px;
+  padding: 1rem;
+  border-radius: 0.4rem;
+}
+
+.replyButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-accent);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    transition: 0.3s;
+}
+
+.replyButton:hover {
+    opacity: 0.6;
+}
+
+.replyCloseButton {
+    height: 32px;
+    width:  32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    transition: 0.3s;
+}
+
+.replyCloseButton:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.replyCancelButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: var(--color-bg);
+    transition: 0.3s;
+}
+
+.replyCancelButton:hover {
+    background-color: var(--color-bg-hover);
 }
 
 .post {
@@ -146,11 +194,12 @@
 .formTopRow {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .formBottomRow {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .formRoot {
@@ -161,6 +210,15 @@
 .formField {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+.formField textarea {
+  resize: none;
+  min-height: 200px;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--color-border)
 }
 
 .formError {
