@@ -1,0 +1,205 @@
+@import "../variables.css";
+
+.createPostLimited {
+  display: flex;
+  flex-direction: row;
+  max-height: 400px;
+  gap: 1rem;
+}
+
+.createPostLimitedLeft {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 1rem;
+}
+
+.createPostLimitedRight {
+    display: flex;
+    flex-direction: column;
+    min-width: 90px;
+}
+
+.formRootAddWord,
+.formRootContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.addWordLabel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.contentLabel,
+.wordsLabel {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    transition: 0.3s;
+}
+
+.addWordLabelLeft svg:hover,
+.contentLabel svg:hover,
+.wordsLabel svg:hover {
+    opacity: 0.6;
+}
+
+.addWordLabelLeft {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    transition: 0.3s;
+}
+
+.addWordInput {
+    width: 100%;
+}
+
+.searchResults {
+    display: flex;
+    gap: 1ch;
+    width: 100%;
+    overflow: hidden;
+    min-height: 1.5rem;
+}
+
+.addWordButtonRow {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.contentTopRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contentButtonRow {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.clearButton, .deleteWordButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: var(--color-bg);
+    transition: 0.3s;
+}
+
+.clearButton:hover, .deleteWordButton:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.addWordButton, .postButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-accent);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    transition: 0.3s;
+}
+
+.addWordButton:hover, .postButton:hover {
+    opacity: 0.6;
+}
+
+.addWordInput {
+    padding: 0.5rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-border);
+}
+
+.contentTextArea {
+    resize: none;
+    width: 100%;
+    min-height: 100px;
+    padding: 0.5rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-border)
+  }
+
+.scrollAreaRoot {
+  max-height: 300px;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+.scrollAreaViewport {
+  width: 100%;
+  height: 100%;
+}
+
+.scrollAreaScrollbar {
+  background-color: var(--color-bg-hover);
+  display: flex;
+  user-select: none;
+  touch-action: none;
+  padding: 2px;
+  transition: 0.3s;
+  overflow-y: hidden;
+}
+
+.scrollAreaScrollbar:hover {
+  background: #c2c2c2ff;
+}
+
+.scrollAreaScrollbar[data-orientation="vertical"] {
+  width: 10px;
+}
+
+.scrollAreaScrollbar[data-orientation="horizontal"] {
+  flex-direction: column;
+  height: 10px;
+}
+
+.scrollAreaThumb {
+  flex: 1;
+  background-color: #888888;
+  border-radius: 10px;
+  position: relative;
+}
+
+.scrollAreaThumb::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.wordButton {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    border: none;
+    background-color: var(--color-bg);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    transition: 0.3s;
+}
+
+.wordButton:hover {
+    background-color: var(--color-bg-hover);
+}
