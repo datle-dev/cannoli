@@ -5,6 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { RxHome, RxPerson } from "react-icons/rx";
 import { RiPencilFill, RiMoreFill, RiCloseFill } from "react-icons/ri";
+import { Tooltip } from 'react-tooltip'
 import { AuthContext } from "../App";
 import CreatePostLimited from "./CreatePostLimited";
 import LogoutButton from "./LogoutButton";
@@ -100,7 +101,10 @@ export default function NavBar() {
               <Dialog.Title>Create Post</Dialog.Title>
               <Dialog.Close asChild>
                 <button type="button" className={styles.createdLimitedPostCloseButton}>
-                  <RiCloseFill />
+                  <RiCloseFill data-tooltip-id="close-tooltip" data-tooltip-delay-show={1000}/>
+                  <Tooltip id="close-tooltip" style={{ zIndex: 99 }}>
+                    <p>Close</p>
+                  </Tooltip>
                 </button>
               </Dialog.Close>
             </div>
