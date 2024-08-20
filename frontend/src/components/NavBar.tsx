@@ -2,8 +2,9 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { RxHome, RxPerson } from "react-icons/rx";
-import { RiPencilFill, RiMoreFill } from "react-icons/ri";
+import { RiPencilFill, RiMoreFill, RiCloseFill } from "react-icons/ri";
 import { AuthContext } from "../App";
 import CreatePostLimited from "./CreatePostLimited";
 import LogoutButton from "./LogoutButton";
@@ -98,13 +99,17 @@ export default function NavBar() {
             <div className={styles.dialogTopRow}>
               <Dialog.Title>Create Post</Dialog.Title>
               <Dialog.Close asChild>
-                <button type="button">Close</button>
+                <button type="button" className={styles.createdLimitedPostCloseButton}>
+                  <RiCloseFill />
+                </button>
               </Dialog.Close>
             </div>
-            <Dialog.Description>Accessible description</Dialog.Description>
+            <VisuallyHidden.Root>
+              <Dialog.Description>Accessible description</Dialog.Description>
+            </VisuallyHidden.Root>
             <CreatePostLimited onSuccessSetDialogOpen={setDialogOpen} />
             <Dialog.Close asChild>
-              <button type="button">Cancel</button>
+              <button type="button" className={styles.createLimitedPostCancelButton}>Cancel</button>
             </Dialog.Close>
           </Dialog.Content>
         </Dialog.Portal>
