@@ -116,14 +116,45 @@
 }
 
 .dialogContent {
-    background-color: white;
+    background-color: var(--color-bg);
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    padding: 1rem;
+    border-radius: 0.4rem;
 }
 
 .dialogTopRow {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.createdLimitedPostCloseButton {
+    height: 32px;
+    width:  32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    transition: 0.3s;
+}
+
+.createLimitedPostCancelButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: var(--color-bg);
+    transition: 0.3s;
+}
+
+.createdLimitedPostCloseButton:hover,
+.createLimitedPostCancelButton:hover {
+    background-color: var(--color-bg-hover);
 }
