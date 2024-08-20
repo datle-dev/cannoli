@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiHeart3Line, RiHeart3Fill, RiChat3Line, RiCloseFill } from "react-icons/ri";
 import { IconContext } from "react-icons";
+import { Tooltip } from "react-tooltip";
 import styles from "./Post.module.css";
 
 dayjs.extend(relativeTime);
@@ -185,13 +186,19 @@ export default function Post({ post }) {
                   type="button"
                   onClick={handlePostUnlike}
                   className={styles.likeUnlikeButton}
+                  data-tooltip-id="unlike-tooltip"
+                  data-tooltip-delay-show={1000}
                 >
                   <IconContext.Provider
                     value={{ className: styles.unlikeIcon }}
                   >
                     <RiHeart3Fill />
+                    
                   </IconContext.Provider>
                 </button>
+                <Tooltip id="unlike-tooltip" style={{ zIndex: 99 }}>
+                  <p>Unlike</p>
+                </Tooltip>
                 {likeCount > 0 && (
                   <span className={styles.liked}>{likeCount}</span>
                 )}
@@ -202,11 +209,16 @@ export default function Post({ post }) {
                   type="button"
                   onClick={handlePostLike}
                   className={styles.likeUnlikeButton}
+                  data-tooltip-id="like-tooltip"
+                  data-tooltip-delay-show={1000}
                 >
                   <IconContext.Provider value={{ className: styles.likeIcon }}>
                     <RiHeart3Line />
                   </IconContext.Provider>
                 </button>
+                <Tooltip id="like-tooltip" style={{ zIndex: 99 }}>
+                  <p>Like</p>
+                </Tooltip>
                 {likeCount > 0 && <span>{likeCount}</span>}
               </div>
             )}
@@ -215,12 +227,17 @@ export default function Post({ post }) {
                 type="button"
                 className={styles.commentButton}
                 onClick={handleOpenCommentDialog}
+                data-tooltip-id="reply-tooltip"
+                data-tooltip-delay-show={1000}
               >
                 <IconContext.Provider value={{ className: styles.commentIcon }}>
                   <RiChat3Line />
                 </IconContext.Provider>
               </button>
             </Dialog.Trigger>
+            <Tooltip id="reply-tooltip" style={{ zIndex: 99 }}>
+              <p>Reply</p>
+            </Tooltip>
           </div>
           <Dialog.Portal>
             <Dialog.Overlay className={styles.dialogOverlay} />
