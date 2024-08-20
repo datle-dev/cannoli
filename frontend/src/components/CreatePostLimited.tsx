@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import * as Form from '@radix-ui/react-form';
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import Fuse from "fuse.js";
-import { RiInformationLine, RiCheckFill, RiCloseLine } from "react-icons/ri";
+import { RiInformationLine, RiCheckFill } from "react-icons/ri";
 import { Tooltip } from 'react-tooltip'
 import styles from "./CreatePostLimited.module.css";
 
