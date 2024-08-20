@@ -70,6 +70,10 @@
     min-height: 1.5rem;
 }
 
+.searchResultPlaceholder {
+    color: #8f8f8f;
+}
+
 .addWordButtonRow {
     display: flex;
     width: 100%;

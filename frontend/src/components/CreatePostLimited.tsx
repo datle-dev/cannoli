@@ -4,7 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import * as Form from '@radix-ui/react-form';
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import Fuse from "fuse.js";
-import { RiInformationLine, RiCheckFill, RiCloseLine } from "react-icons/ri";
+import { RiInformationLine, RiCheckFill } from "react-icons/ri";
+import { Tooltip } from 'react-tooltip'
 import styles from "./CreatePostLimited.module.css";
 
 export default function CreatePostLimited({ onSuccessSetDialogOpen }) {
@@ -169,14 +170,24 @@ export default function CreatePostLimited({ onSuccessSetDialogOpen }) {
             <Form.Label className={styles.addWordLabel}>
               <div className={styles.addWordLabelLeft}>
                 <h3>Add Word</h3>
-                <RiInformationLine />
+                <RiInformationLine
+                  data-tooltip-id="add-word-tooltip"
+                />
+                <Tooltip id="add-word-tooltip" style={{ zIndex: 99 }}>
+                  <div>
+                    <p>Type a word here to add it to the post.</p>
+                    <p>Only available words can be added.</p>
+                    <p>The check mark indicates a valid word.</p>
+                  </div>
+                </Tooltip>
               </div>
-              {errorsWord.word ? <></> : <RiCheckFill />}
+              {typedWord === "" || errorsWord.word ? <></> : <RiCheckFill />}
             </Form.Label>
             <Form.Control asChild>
               <input
                 type="text"
                 id="word"
+                placeholder="Type word here to add"
                 {...registerWord("word", {
                   required: {
                     value: true,
@@ -194,20 +205,36 @@ export default function CreatePostLimited({ onSuccessSetDialogOpen }) {
             </Form.Control>
           </Form.Field>
           <div className={styles.addWordButtonRow}>
-            <Form.Submit className={styles.addWordButton}>Add Word</Form.Submit>
+            <Form.Submit className={styles.addWordButton} data-tooltip-id="add-word-button-tooltip" data-tooltip-delay-show={1000}>Add Word</Form.Submit>
+            <Tooltip id="add-word-button-tooltip" style={{ zIndex: 99 }}>
+              <p>Add word to post if available/valid</p>
+            </Tooltip>
           </div>
         </Form.Root>
         <div className={styles.searchResults}>
-          {searchResults.map((result, index) => {
-            return <p key={index}>{result}</p>;
-          })}
+          {typedWord !== "" ? (
+            searchResults.map((result, index) => {
+              return <p key={index}>{result}</p>;
+            })
+          ) : (
+            <p className={styles.searchResultPlaceholder}>Begin typing for suggestions</p>
+          )}
         </div>
         <Form.Root onSubmit={handleSubmitPost(handleSendPost)}  className={styles.formRootContent}>
           <Form.Field name="content">
             <div className={styles.contentTopRow}>
               <Form.Label className={styles.contentLabel}>
-                <h3>Content</h3>
-                <RiInformationLine />
+                <h3>Post Content</h3>
+                <RiInformationLine
+                  data-tooltip-id="content-tooltip"
+                />
+                <Tooltip id="content-tooltip" style={{ zIndex: 99 }}>
+                  <div>
+                    <p>Added words appear here.</p>
+                    <p>Clear all words or delete words one by one.</p>
+                    <p>Click on any word to add it to the post.</p>
+                  </div>
+                </Tooltip>
               </Form.Label>
               <p>{postLength}/256</p>
             </div>
@@ -216,6 +243,7 @@ export default function CreatePostLimited({ onSuccessSetDialogOpen }) {
                 id="content"
                 readOnly
                 defaultValue=""
+                placeholder="Added words will appear here. Max of 256 characters."
                 {...registerPost("content", {
                   required: {
                     value: true,
@@ -234,13 +262,22 @@ export default function CreatePostLimited({ onSuccessSetDialogOpen }) {
             </Form.Message>
           </Form.Field>
           <div className={styles.contentButtonRow}>
-            <button type="button" onClick={handleClearPost} className={styles.clearButton}>
+            <button type="button" onClick={handleClearPost} className={styles.clearButton} data-tooltip-id="clear-tooltip" data-tooltip-delay-show={1000}>
               Clear
             </button>
-            <button type="button" onClick={handleDeleteWord} className={styles.deleteWordButton}>
+            <Tooltip id="clear-tooltip" style={{ zIndex: 99 }}>
+              <p>Clear all words</p>
+            </Tooltip>
+            <button type="button" onClick={handleDeleteWord} className={styles.deleteWordButton} data-tooltip-id="delete-tooltip" data-tooltip-delay-show={1000}>
               Delete Word
             </button>
-            <Form.Submit className={styles.postButton}>Post</Form.Submit>
+            <Tooltip id="delete-tooltip" style={{ zIndex: 99 }}>
+              <p>Delete last entered word</p>
+            </Tooltip>
+            <Form.Submit className={styles.postButton} data-tooltip-id="post-tooltip" data-tooltip-delay-show={1000}>Post</Form.Submit>
+            <Tooltip id="post-tooltip" style={{ zIndex: 99 }}>
+              <p>Submit post with the above content</p>
+            </Tooltip>
           </div>
         </Form.Root>
         {errorsPost.content && <p>{errorsPost.content.message} X</p>}
@@ -248,7 +285,16 @@ export default function CreatePostLimited({ onSuccessSetDialogOpen }) {
       <div className={styles.createPostLimitedRight}>
         <div className={styles.wordsLabel}>
           <h3>Words</h3>
-          <RiInformationLine />
+          <RiInformationLine
+            data-tooltip-id="words-tooltip"
+          />
+          <Tooltip id="words-tooltip" style={{ zIndex: 99 }}>
+            <div>
+              <p>List of available words.</p>
+              <p>Scroll to browse.</p>
+              <p>Click on any word to add it to the post.</p>
+            </div>
+          </Tooltip>
         </div>
         <ScrollArea.Root className={styles.scrollAreaRoot}>
           <ScrollArea.Viewport className={styles.scrollAreaViewport}>
