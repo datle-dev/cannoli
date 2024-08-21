@@ -5,6 +5,7 @@
     flex-direction: column;
     transition: 0.3s;
     padding: 0.5rem 1rem;
+    width: 100%;
 }
 
 .postListing:hover {
