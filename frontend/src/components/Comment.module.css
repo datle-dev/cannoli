@@ -3,7 +3,7 @@
 .comment {
     display: flex;
     gap: 0.5rem;
-    max-width: 480px;
+    width: 100%;
     border-width: 1px 1px 0 1px;
     border-style: solid;
     border-color: var(--color-border);
