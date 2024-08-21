@@ -9,6 +9,7 @@
     margin-top: 1rem;
     min-width: 320px;
     max-width: 480px;
+    padding: 1rem;
 }
 
 .aside {
@@ -50,6 +51,7 @@
 @media only screen and (max-width: 480px) {
     .main {
         grid-column: 1/4;
+        padding: 1.5rem;
     }
 
     .aside {
