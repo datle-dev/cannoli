@@ -84,8 +84,8 @@
 }
 
 .likeUnlikeButton, .commentButton {
-    height: 32px;
-    width:  32px;
+    height: 24px;
+    width:  24px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -101,6 +101,12 @@
 
 .commentButton:hover {
     background-color: #c0d5e9;
+}
+
+.likeIcon,
+.unlikeIcon {
+    height: 100%;
+    width: 100%;
 }
 
 .likeIcon {

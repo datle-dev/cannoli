@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom"
-import { RiMoreFill, RiPencilLine } from "react-icons/ri"
+import { RiMoreFill, RiPencilLine, RiCloseFill } from "react-icons/ri"
 import { RxHome, RxPerson } from "react-icons/rx";
 import * as Dialog from "@radix-ui/react-dialog";
+import { Tooltip } from 'react-tooltip'
 import { AuthContext } from "../App";
 import CreatePostLimited from "./CreatePostLimited";
 import LogoutButton from "./LogoutButton";
@@ -38,13 +39,18 @@ export default function NavBottom() {
             <div className={styles.dialogTopRow}>
               <Dialog.Title>Create Post</Dialog.Title>
               <Dialog.Close asChild>
-                <button type="button">Close</button>
+              <button type="button" className={styles.createdLimitedPostCloseButton}>
+                  <RiCloseFill data-tooltip-id="close-tooltip" data-tooltip-delay-show={1000}/>
+                  <Tooltip id="close-tooltip" style={{ zIndex: 99 }}>
+                    <p>Close</p>
+                  </Tooltip>
+                </button>
               </Dialog.Close>
             </div>
             <Dialog.Description>Accessible description</Dialog.Description>
             <CreatePostLimited onSuccessSetDialogOpen={setDialogOpen} />
             <Dialog.Close asChild>
-              <button type="button">Cancel</button>
+              <button type="button" className={styles.createLimitedPostCancelButton}>Cancel</button>
             </Dialog.Close>
           </Dialog.Content>
         </Dialog.Portal>

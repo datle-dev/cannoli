@@ -8,6 +8,7 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiHeart3Line, RiHeart3Fill, RiChat3Line } from "react-icons/ri";
+import { Tooltip } from "react-tooltip";
 import { IconContext } from "react-icons";
 import styles from "./Comment.module.css";
 
@@ -121,11 +122,16 @@ export default function Comment({ comment }) {
                 type="button"
                 onClick={handlePostUnlike}
                 className={styles.likeUnlikeButton}
+                data-tooltip-id="unlike-tooltip"
+                data-tooltip-delay-show={1000}
               >
                 <IconContext.Provider value={{ className: styles.unlikeIcon }}>
                   <RiHeart3Fill />
                 </IconContext.Provider>
               </button>
+              <Tooltip id="unlike-tooltip" style={{ zIndex: 99 }}>
+                <p>Unike</p>
+              </Tooltip>
               {likeCount > 0 && (
                 <span className={styles.liked}>{likeCount}</span>
               )}
@@ -136,11 +142,16 @@ export default function Comment({ comment }) {
                 type="button"
                 onClick={handlePostLike}
                 className={styles.likeUnlikeButton}
+                data-tooltip-id="like-tooltip"
+                  data-tooltip-delay-show={1000}
               >
                 <IconContext.Provider value={{ className: styles.likeIcon }}>
                   <RiHeart3Line />
                 </IconContext.Provider>
               </button>
+              <Tooltip id="like-tooltip" style={{ zIndex: 99 }}>
+                <p>Like</p>
+              </Tooltip>
               {likeCount > 0 && <span>{likeCount}</span>}
             </div>
           )}
