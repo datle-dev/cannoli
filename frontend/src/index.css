@@ -22,7 +22,7 @@ body {
     background-color: var(--color-bg);
     display: grid;
     grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr auto;
     gap: 1rem;
     max-width: 860px;
 }
