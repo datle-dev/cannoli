@@ -12,6 +12,9 @@
 }
 
 .nav a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     transition: 0.3s;
     padding: 1rem 0;
@@ -41,6 +44,7 @@
     flex-direction: column;
     gap: 0.4rem;
     width: 100%;
+    padding: 0 1rem;
 }
 
 .usernameRow {
