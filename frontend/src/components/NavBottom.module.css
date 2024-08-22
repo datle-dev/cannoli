@@ -26,6 +26,7 @@
 
 .navLink {
     display: grid;
+    aspect-ratio: 1/1;
     place-content: center;
     width: 100%;
     padding: 0.5rem 0;
@@ -34,8 +35,6 @@
 
 .navLink:hover {
     background-color: var(--color-bg-hover);
-    aspect-ratio: 1/1;
-    padding: 0.5rem;
 }
 
 .navButton {
@@ -64,6 +63,7 @@
     height: 24px;
     width: 24px;
 }
+
 .me {
     display: flex;
     justify-content: space-between;
