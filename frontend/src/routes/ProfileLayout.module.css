@@ -1,5 +1,9 @@
 @import "../variables.css";
 
+.heading {
+    padding: 1rem 0 1rem 1rem;
+}
+
 .nav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

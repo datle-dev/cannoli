@@ -4,6 +4,7 @@ import Post from "../components/Post";
 import Comment from "../components/Comment";
 import { fetchRefresh } from "../utils/fetchUtils";
 import Spinner from "../components/Spinner";
+import styles from "./PostDetail.module.css"
 
 export default function PostDetail() {
   const routeParams = useParams();
@@ -46,6 +47,7 @@ export default function PostDetail() {
 
   return (
     <>
+      <h2 className={styles.heading}>Post</h2>
       <Post post={post.data} />
       {comments.data.map((comment, index) => {
         return <Comment comment={comment} key={index} />

@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import AllFeed from "../components/AllFeed";
 import Spinner from "../components/Spinner";
+import styles from "./Home.module.css";
 
 export default function Home() {
   const { user } = useContext(AuthContext)
@@ -23,7 +24,7 @@ export default function Home() {
   return (
     <>
       <title>Cannoli | Home</title>
-      <h2>Home</h2>
+      <h2 className={styles.heading}>Home</h2>
       <AllFeed />
     </>
   )

@@ -136,7 +136,7 @@ export default function ProfileLayout() {
 
   return (
     <>
-      <h2>Profile</h2>
+      <h2 className={styles.heading}>Profile</h2>
       <div className={styles.bio}>
         <p className={styles.avatar}>
           {viewingProfile.data.avatar[0] +
