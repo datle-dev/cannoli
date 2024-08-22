@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@tanstack/react-query"
 import { fetchRefresh } from "../utils/fetchUtils"
 import { AuthContext } from "../App"
+import Spinner from "../components/Spinner"
 
 export default function User() {
   const routeParams = useParams()
@@ -77,7 +78,7 @@ export default function User() {
   }
 
   if (viewingUser.isPending) {
-    return <p>Loading...</p>
+    return <Spinner />
   }
 
   if (viewingUser.isError) {

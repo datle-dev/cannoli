@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import ProfileListing from "../components/ProfileListing";
 import { fetchRefresh } from "../utils/fetchUtils";
+import Spinner from "../components/Spinner";
 import styles from "./ProfileFollow.module.css";
 
 export default function ProfileFollowers() {
@@ -50,7 +51,7 @@ export default function ProfileFollowers() {
   });
 
   if (followerProfiles.isPending) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (

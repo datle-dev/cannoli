@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../App";
 import Post, { PostType } from "./Post";
 import { fetchRefresh } from "../utils/fetchUtils";
+import Spinner from "./Spinner";
 
 export default function AllFeed() {
   const { user } = useContext(AuthContext)
@@ -20,7 +21,7 @@ export default function AllFeed() {
   })
 
   if (feed.isPending) {
-    return <p>Loading...</p>
+    return <Spinner />
   }
 
   if (feed.isError) {

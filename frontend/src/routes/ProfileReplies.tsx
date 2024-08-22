@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Comment from "../components/Comment";
 import { fetchRefresh } from "../utils/fetchUtils";
+import Spinner from "../components/Spinner";
 
 export default function ProfileReplies() {
   const routeParams = useParams();
@@ -27,7 +28,7 @@ export default function ProfileReplies() {
   });
 
   if (replies.isPending) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (

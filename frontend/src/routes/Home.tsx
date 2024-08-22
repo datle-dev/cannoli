@@ -2,12 +2,13 @@ import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import AllFeed from "../components/AllFeed";
+import Spinner from "../components/Spinner";
 
 export default function Home() {
   const { user } = useContext(AuthContext)
   
   if (user.isPending) {
-    return <p>Loading...</p>
+    return <Spinner />
   }
   
   if (!user.data) {

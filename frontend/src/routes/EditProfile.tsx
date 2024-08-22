@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchRefresh } from "../utils/fetchUtils";
 import styles from "./EditProfile.module.css";
 import { AuthContext } from "../App";
+import Spinner from "../components/Spinner";
 
 export default function EditProfile() {
   const { user } = useContext(AuthContext);
@@ -112,7 +113,7 @@ export default function EditProfile() {
   }
 
   if (userMe.isPending || profileMe.isPending) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   function handleAssignAvatarPreset(e) {

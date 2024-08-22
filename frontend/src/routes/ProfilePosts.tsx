@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchRefresh } from "../utils/fetchUtils";
 import Post from "../components/Post";
+import Spinner from "../components/Spinner";
 
 export default function ProfilePosts() {
   const routeParams = useParams();
@@ -27,7 +28,7 @@ export default function ProfilePosts() {
   });
 
   if (posts.isPending) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (

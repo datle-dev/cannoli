@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../App";
 import { fetchRefresh } from "../utils/fetchUtils";
+import Spinner from "./Spinner";
 
 export default function AllComments() {
   const { user } = useContext(AuthContext)
@@ -19,7 +20,7 @@ export default function AllComments() {
   })
 
   if (comments.isPending) {
-    return <p>Loading...</p>
+    return <Spinner />
   }
 
   if (comments.isError) {

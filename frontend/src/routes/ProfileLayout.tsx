@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { RiCalendar2Line } from "react-icons/ri";
 import { fetchRefresh } from "../utils/fetchUtils";
 import { AuthContext } from "../App";
+import Spinner from "../components/Spinner";
 import styles from "./ProfileLayout.module.css";
 
 export default function ProfileLayout() {
@@ -111,7 +112,7 @@ export default function ProfileLayout() {
   }
 
   if (viewingUser.isPending || viewingProfile.isPending) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   const switchNavLinkClass = ({ isActive, isPending, isTransitioning }) =>

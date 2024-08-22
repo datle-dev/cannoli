@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Post from "../components/Post";
 import Comment from "../components/Comment";
 import { fetchRefresh } from "../utils/fetchUtils";
+import Spinner from "../components/Spinner";
 
 export default function PostDetail() {
   const routeParams = useParams();
@@ -40,7 +41,7 @@ export default function PostDetail() {
   })
 
   if (post.isPending || comments.isPending) {
-    return <p>Loading...</p>
+    return <Spinner />
   }
 
   return (
