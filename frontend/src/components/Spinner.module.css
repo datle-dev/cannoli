@@ -1,0 +1,19 @@
+@import "../variables.css";
+
+.svg {
+    justify-self: center;
+    align-self: center;
+    margin-top: 3rem;
+}
+
+.spinner {
+  transform-origin: center;
+  animation: spinner_spin 0.75s infinite linear;
+  fill: var(--color-accent);
+}
+
+@keyframes spinner_spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
