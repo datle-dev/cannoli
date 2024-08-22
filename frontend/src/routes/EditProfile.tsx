@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
@@ -12,31 +12,66 @@ export default function EditProfile() {
   const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const leftEyePresets = [
+    "•",
+    "*",
+    "^",
+    "o",
+    "-",
+    "=",
+    ">",
+    "T",
+    ";",
+    "q",
+    "x",
+  ];
+  const rightEyePresets = [
+    "•",
+    "*",
+    "^",
+    "o",
+    "-",
+    "=",
+    "<",
+    "T",
+    ";",
+    "q",
+    "x",
+  ];
+  const mouthPresets = [
+    "ω",
+    "w",
+    "3",
+    "-",
+    "_",
+    "o",
+    "~",
+    ".",
+  ];
   const avatarPresets = [
     "-_-",
     ">w<",
     "T~T",
     "o3<",
     "q-q",
-    "@m@",
     "•ω•",
     "^3^",
     "*o*",
     "=.=",
-    ";O;",
+    ";o;",
   ];
+
+  const [leftEye, setLeftEye]  = useState("•");
+  const [rightEye, setRightEye]  = useState("•");
+  const [mouth, setMouth]  = useState("ω");
+
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
     watch,
   } = useForm();
-
-  const watchedLeftEye = watch("lefteye");
-  const watchedMouth = watch("mouth");
-  const watchedRightEye = watch("righteye");
-  const watchAbout = watch("about");
 
   const userMe = useQuery({
     queryKey: ["user", "me"],
@@ -86,7 +121,7 @@ export default function EditProfile() {
           method: "PUT",
           body: JSON.stringify({
             about: data.about,
-            avatar: data.lefteye + data.mouth + data.righteye,
+            avatar: leftEye + mouth + rightEye,
           }),
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access")}`,
@@ -107,6 +142,8 @@ export default function EditProfile() {
     },
   });
 
+  const watchAbout = watch("about");
+
   function handleEditProfile(data) {
     console.log("handle edit profile");
     updateProfileMutation.mutate(data);
@@ -116,27 +153,44 @@ export default function EditProfile() {
     return <Spinner />;
   }
 
+  function handleAssignLeftEye(e) {
+    const chosenLeftEye = e.currentTarget.getAttribute("data-left-eye");
+    setLeftEye(chosenLeftEye);
+  }
+
+  function handleAssignRightEye(e) {
+    const chosenRightEye = e.currentTarget.getAttribute("data-right-eye");
+    setRightEye(chosenRightEye);
+  }
+
+  function handleAssignMouth(e) {
+    const chosenMouth = e.currentTarget.getAttribute("data-mouth");
+    setMouth(chosenMouth);
+  }
+
   function handleAssignAvatarPreset(e) {
     console.log(e.currentTarget.getAttribute("data-preset"))
     const chosenPreset = e.currentTarget.getAttribute("data-preset");
-    setValue("lefteye", chosenPreset[0])
-    setValue("mouth", chosenPreset[1])
-    setValue("righteye", chosenPreset[2])
+    setLeftEye(chosenPreset[0]);
+    setMouth(chosenPreset[1]);
+    setRightEye(chosenPreset[2]);
   }
 
   return (
     <>
       <title>Cannoli | Edit Profile</title>
-      <h2>Edit Profile</h2>
-
+      <h2 className={styles.heading}>Edit Profile</h2>
       <Form.Root
         onSubmit={handleSubmit(handleEditProfile)}
-        className={styles.root}
+        className={styles.formRoot}
       >
         <Form.Field name="about" className={styles.field}>
-          <Form.Label asChild>
-            <h3>About</h3>
-          </Form.Label>
+          <div className={styles.aboutTopRow}>
+            <Form.Label asChild>
+              <h3>About</h3>
+            </Form.Label>
+            <p>{Number(watchAbout?.length)}/256</p>
+          </div>
           <Form.Control asChild>
             <textarea
               id="about"
@@ -148,111 +202,60 @@ export default function EditProfile() {
                   message: "Max of 256 characters",
                 },
               })}
+              className={styles.aboutTextArea}
             />
           </Form.Control>
-          <p>{Number(watchAbout?.length)}/256</p>
           <Form.Message asChild className={styles.error}>
             <p>{errors.about?.message}</p>
           </Form.Message>
         </Form.Field>
 
-        <h3>Avatar Preview</h3>
-        <div className={styles.avatarPreview}>
-          <p>{watchedLeftEye}</p>
-          <p>{watchedMouth}</p>
-          <p>{watchedRightEye}</p>
+        <h3>Avatar Creator</h3>
+        <p>
+          Select a left eye, a mouth, and a right eye by clicking on the buttons below.
+          Or select one of the presets with a preconfigured combination of eyes and a mouth.
+        </p>
+        <div className={styles.avatarCreator}>
+          <div className={styles.avatarPreview}>
+            <p>{leftEye}</p>
+            <p>{mouth}</p>
+            <p>{rightEye}</p>
+          </div>
+          <div className={styles.preset}>
+            <h4>Left Eye</h4>
+            <div className={styles.presetButtonGrid}>
+              {leftEyePresets.map((preset, index) => {
+                return <button type="button" data-left-eye={preset} onClick={handleAssignLeftEye} key={index}>{preset}</button>
+              })}
+            </div>
+          </div>
+          <div className={styles.preset}>
+            <h4>Mouth</h4>
+            <div className={styles.presetButtonGrid}>
+              {mouthPresets.map((preset, index) => {
+                return <button type="button" data-mouth={preset} onClick={handleAssignMouth} key={index}>{preset}</button>
+              })}
+            </div>
+          </div>
+          <div className={styles.preset}>
+            <h4>Right Eye</h4>
+            <div className={styles.presetButtonGrid}>
+              {rightEyePresets.map((preset, index) => {
+                return <button type="button" data-right-eye={preset} onClick={handleAssignRightEye} key={index}>{preset}</button>
+              })}
+            </div>
+          </div>
+          <div className={styles.avatarPresets}>
+            <h4>Avatar Presets</h4>
+            <div className={styles.avatarPresetButtonGrid}>
+              {avatarPresets.map((preset, index) => {
+                return <button type="button" data-preset={preset} onClick={handleAssignAvatarPreset} key={index}>{preset[0] + " " + preset[1] + " " + preset[2]}</button>
+              })}
+            </div>
+          </div>
         </div>
-
-        <Form.Field name="avatar" className={styles.field}>
-          <Form.Label>Left Eye</Form.Label>
-          <Form.Control
-            type="text"
-            defaultValue={profileMe.data.avatar[0]}
-            className={styles.avatarTextInput}
-            maxLength={1}
-            {...register("lefteye", {
-              required: {
-                value: true,
-                message: "Left eye is required",
-              },
-              minLength: {
-                value: 1,
-                message: "Left eye must be 1 character",
-              },
-              maxLength: {
-                value: 1,
-                message: "Left eye must be 1 character",
-              },
-            })}
-          />
-          <Form.Message asChild className={styles.error}>
-            <p>{errors.lefteye?.message}</p>
-          </Form.Message>
-        </Form.Field>
-
-        <Form.Field name="mouth" className={styles.field}>
-          <Form.Label>Mouth</Form.Label>
-          <Form.Control
-            type="text"
-            defaultValue={profileMe.data.avatar[1]}
-            className={styles.avatarTextInput}
-            maxLength={1}
-            {...register("mouth", {
-              required: {
-                value: true,
-                message: "Mouth is required",
-              },
-              minLength: {
-                value: 1,
-                message: "Mouth must be 1 character",
-              },
-              maxLength: {
-                value: 1,
-                message: "Mouth must be 1 character",
-              },
-            })}
-          />
-          <Form.Message asChild className={styles.error}>
-            <p>{errors.mouth?.message}</p>
-          </Form.Message>
-        </Form.Field>
-
-        <Form.Field name="righteye" className={styles.field}>
-          <Form.Label>Right Eye</Form.Label>
-          <Form.Control
-            type="text"
-            defaultValue={profileMe.data.avatar[2]}
-            className={styles.avatarTextInput}
-            maxLength={1}
-            {...register("righteye", {
-              required: {
-                value: true,
-                message: "Right eye is required",
-              },
-              minLength: {
-                value: 1,
-                message: "Right eye must be 1 character",
-              },
-              maxLength: {
-                value: 1,
-                message: "Right eye must be 1 character",
-              },
-            })}
-          />
-          <Form.Message asChild className={styles.error}>
-            <p>{errors.righteye?.message}</p>
-          </Form.Message>
-        </Form.Field>
-
-        <Form.Submit>Update Profile</Form.Submit>
+        <Form.Submit className={styles.updateProfileButton}>Update Profile</Form.Submit>
       </Form.Root>
-      
-      <p>Avatar Presets</p>
-      <div className={styles.avatarPresets}>
-        {avatarPresets.map((preset, index) => {
-          return <button type="button" data-preset={preset} onClick={handleAssignAvatarPreset}>{preset[0] + " " + preset[1] + " " + preset[2]}</button>
-        })}
-      </div>
     </>
   );
 }
