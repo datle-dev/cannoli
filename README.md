@@ -5,14 +5,28 @@
 Cannoli is a concept for a microblogging social media platform where users make posts with a limited set of words.
 It's heavily inspired by [X (formerly known as Twitter)](https://x.com), [Magnetic Poetry](https://magneticpoetry.com/), and [Elden Ring's multiplayer message system](https://eldenring.wiki.fextralife.com/Messages).
 
-This is a full-stack portfolio project using React (Typescript) as the front-end and Django (Python) as the back-end.
+This is intended as a full-stack portfolio project that makes use of the following languages and technologies:
+- Javascript/Typescript
+- Python
+- React
+- CSS Modules
+- Django
+- Django REST Framework
 
 ## Features
-- JWT authentication (tokens stored in browser local storage)
-- Users can register accounts, login, and logout
-- Users can create and like posts
-- Users can customize a profile
+- Account registration
+- JWT authentication (tokens stored in browser local storage) for login/logout
+- Create and like posts or replies
+- Follow or be followed by other users
+- Customize a basic user profile
+- View posts, replies, likes, and followers on their profile page
 
 ## Roadmap
-- Users can follow other users as well as see their own followers or another user's followers
-- Basic user feed with posts from (1) all users and (2) followed users
+- [x] Users can follow other users as well as see their own followers or another user's followers
+- [ ] Basic user feed with posts from:
+  - [x] all users
+  - [ ] followed users
+
+## Lessons Learned
+
+TBD
