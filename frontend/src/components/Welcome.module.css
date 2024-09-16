@@ -1,0 +1,35 @@
+@import "../variables.css";
+
+.siteTitle {
+    font-family: "Pacifico";
+    font-size: 3rem;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.link {
+    text-decoration: underline;
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: var(--color-accent);
+}
+
+.socialsContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.github {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem;
+    transition: 0.3s;
+    border-radius: 0.4rem;
+}
+
+.github:hover {
+    background-color: var(--color-bg-hover);
+}
