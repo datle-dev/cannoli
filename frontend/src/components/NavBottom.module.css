@@ -154,3 +154,16 @@
 .createLimitedPostCancelButton:hover {
     background-color: var(--color-bg-hover);
 }
+
+@media only screen and (max-width: 480px) {
+    .dialogContent {
+        position: fixed;
+        width: 90%;
+        height: 90%;
+        inset: 0px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 0.4rem;
+    }
+} 

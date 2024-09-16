@@ -30,6 +30,8 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
 }
 
 .back:hover {

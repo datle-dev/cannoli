@@ -69,16 +69,17 @@
     display: flex;
     gap: 0.5rem;
     width: 100%;
-    border-width: 1px 0 0 0;
+    border-width: 1px;
     border-style: solid;
     border-color: var(--color-border);
+    border-radius: 0.4rem;
     padding: 0.5rem 1rem;
     transition: 0.3s;
 }
 
-.post:last-child {
+/* .post:last-child {
     border-width: 1px 0 1px 0;
-}
+} */
 
 .postLeft {
     text-wrap: nowrap;
