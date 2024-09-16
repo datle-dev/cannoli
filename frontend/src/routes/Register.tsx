@@ -2,6 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import * as Form from "@radix-ui/react-form";
+import Welcome from "../components/Welcome";
 import styles from "./Register.module.css";
 
 type RegisterType = {
@@ -48,6 +49,7 @@ export default function Register() {
   return (
     <>
       <title>Cannoli | Register</title>
+      <Welcome />
       <h2>Register</h2>
       <Form.Root
         onSubmit={handleSubmit(handleRegister)}
@@ -126,10 +128,10 @@ export default function Register() {
             <p>{errors.password2?.message}</p>
           </Form.Message>
         </Form.Field>
-        <Form.Submit>Register</Form.Submit>
+        <Form.Submit className={styles.registerButton}>Register</Form.Submit>
       </Form.Root>
 
-      <p>Already registered? <Link to={"/login"}>Login</Link></p>
+      <p>Already registered? <Link to={"/login"} className={styles.link}>Login</Link></p>
     </>
   );
 }

@@ -1,6 +1,7 @@
 .root {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
 }
 
 .field {
@@ -8,7 +9,37 @@
     flex-direction: column;
 }
 
+.field input {
+    background-color: white;
+    box-shadow: none;
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-bg-hover);
+    padding: 0.5rem;
+}
+
 .error {
     color: red;
     font-size: 0.8rem;
+}
+
+.link {
+    text-decoration: underline;
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: var(--color-accent);
+}
+
+.registerButton {
+    background: var(--color-accent);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 0.4rem;
+    padding: 0.5rem 0;
+    transition: 0.3s;
+}
+
+.registerButton:hover {
+    opacity: 0.6;
 }
