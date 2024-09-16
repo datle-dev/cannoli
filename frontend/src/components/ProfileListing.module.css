@@ -3,6 +3,10 @@
 .postListing {
     display: flex;
     flex-direction: column;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--color-border);
+    border-radius: 0.4rem;
     transition: 0.3s;
     padding: 0.5rem 1rem;
     width: 100%;

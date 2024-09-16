@@ -4,16 +4,17 @@
     display: flex;
     gap: 0.5rem;
     width: 100%;
-    border-width: 1px 0 0 0;
+    border-width: 1px;
     border-style: solid;
     border-color: var(--color-border);
+    border-radius: 0.4rem;
     padding: 0.5rem 1rem;
     transition: 0.3s;
 }
 
-.comment:last-child {
+/* .comment:last-child {
     border-width: 1px 0 1px 0;
-}
+} */
 
 .commentLeft {
     text-wrap: nowrap;
