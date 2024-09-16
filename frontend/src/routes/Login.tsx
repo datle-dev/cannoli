@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import * as Form from "@radix-ui/react-form";
 import { AuthContext } from "../App";
+import Welcome from "../components/Welcome";
 import styles from "./Login.module.css";
 
 type LoginType = {
@@ -59,6 +60,7 @@ export default function Login() {
   return (
     <>
       <title>Cannoli | Login</title>
+      <Welcome />
       <h2>Login</h2>
       <Form.Root
         onSubmit={handleSubmit(handleLogin)}
@@ -96,11 +98,11 @@ export default function Login() {
             <p>{errors.password?.message}</p>
           </Form.Message>
         </Form.Field>
-        <Form.Submit>Login</Form.Submit>
+        <Form.Submit className={styles.loginButton}>Login</Form.Submit>
       </Form.Root>
 
       <p>
-        Need an account? <Link to={"/register"}>Register</Link>
+        Need an account? <Link to={"/register"} className={styles.link}>Register</Link>
       </p>
     </>
   );
